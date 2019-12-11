@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="social-media-project">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="social-media-project"/>
+        <property name="java-output-path" value="/social-media-project/out/artifacts/socialMediaProject_war_exploded/WEB-INF/classes"/>
+    </wb-module>
+</project-modules>
