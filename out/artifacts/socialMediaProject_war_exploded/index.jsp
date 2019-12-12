@@ -11,29 +11,9 @@
   <script src="./js/getposts.js" type="text/javascript"></script>
   <title>Home</title>
 </head>
-<body>
-<header class="navbar navbar-dark bg-dark">
-  <div class="navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav list-inline">
-      <li class="nav-item active list-inline-item">
-        <a class="nav-link" href="index.jsp">Home</a>
-      </li>
-      <li class="nav-item list-inline-item">
-        <a class="nav-link" href="post.jsp">New Post</a>
-      </li>
-      <li class="nav-item list-inline-item">
-        <a class="nav-link" href="login.jsp">Login</a>
-      </li>
-      <li class="nav-item list-inline-item">
-        <a class="nav-link" href="register.jsp">Register</a>
-      </li>
-      <li class="nav-item list-inline-item">
-        <a class="nav-link" href="account.jsp">Account</a>
-      </li>
-    </ul>
-  </div>
-</header>
-<div class="container-fluid" onload="populatePosts()">
+<body onload="reloadPosts()">
+<%@ include file="header.html" %>
+<div class="container-fluid">
   <div class="row" id="post-container">
   </div>
 </div>
