@@ -36,55 +36,68 @@ function getValidator(emailIndex, passwordIndex, passwordFeedbackElement, verify
 	}
 }
 
-function showPasswordFeedback(evt) {
-	let results = zxcvbn(evt.target.value);
-	let strengthBar = document.getElementById("passwordMeter");
-	
-	let score = results.score;
-	console.log(score);
-	
-	strengthBar.setAttribute("aria-valuenow", score);
-	strengthBar.style.width = ((score + 1) * 20) + "%";
-	switch (score) {
-	case 0:
-		strengthBar.textContent = "Extremely Weak";
-		strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
-		strengthBar.classList.add("bg-danger");
-		break;
-	case 1:
-		strengthBar.textContent = "Very Weak";
-		strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
-		strengthBar.classList.add("bg-danger");
-		break;
-	case 2:
-		strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
-		strengthBar.classList.add("bg-danger");
-		strengthBar.textContent = "Weak";
-		break;
-	case 3:
-		strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
-		strengthBar.classList.add("bg-warning");
-		strengthBar.textContent = "Strong";
-		break;
-	case 4:
-		strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
-		strengthBar.classList.add("bg-success");
-		strengthBar.textContent = "Very Strong";
-		break;
-	}
-	setFeedback();
-	
-	function setFeedback() {
-		let passwordFeedback = document.getElementById("passwordFeedback");
-		if (results == null) {
-			passwordFeedback.innerHTML = "";
+function getFeedbackDisplay(strengthBar, passwordFeedback) {
+	return function (evt) {
+		let results = zxcvbn(evt.target.value);
+
+		let score = results.score;
+		console.log(score);
+
+		strengthBar.setAttribute("aria-valuenow", score);
+		strengthBar.style.width = ((score + 1) * 20) + "%";
+		switch (score) {
+			case 0:
+				strengthBar.textContent = "Extremely Weak";
+				strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
+				strengthBar.classList.add("bg-danger");
+				break;
+			case 1:
+				strengthBar.textContent = "Very Weak";
+				strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
+				strengthBar.classList.add("bg-danger");
+				break;
+			case 2:
+				strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
+				strengthBar.classList.add("bg-danger");
+				strengthBar.textContent = "Weak";
+				break;
+			case 3:
+				strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
+				strengthBar.classList.add("bg-warning");
+				strengthBar.textContent = "Strong";
+				break;
+			case 4:
+				strengthBar.classList.remove("bg-danger", "bg-warning", "bg-success");
+				strengthBar.classList.add("bg-success");
+				strengthBar.textContent = "Very Strong";
+				break;
 		}
-		else {
-			if (results.feedback.warning === "") {
-				passwordFeedback.innerHTML = results.feedback.suggestions.join("<br/>");
+		setFeedback();
+
+		function setFeedback() {
+			if (results == null) {
+				passwordFeedback.innerHTML = "";
 			} else {
-				passwordFeedback.innerHTML = results.feedback.warning + "<br/>" + results.feedback.suggestions.join("<br/>");
+				if (results.feedback.warning === "") {
+					passwordFeedback.innerHTML = results.feedback.suggestions.join("<br/>");
+				} else {
+					passwordFeedback.innerHTML = results.feedback.warning + "<br/>" + results.feedback.suggestions.join("<br/>");
+				}
 			}
+		}
+	}
+}
+
+function getPasswordMatchDisplay(passwordInput, passwordConfirm, passwordMatchFeedback) {
+	return function (evt) {
+		if (passwordInput.value !== passwordConfirm.value) {
+			passwordMatchFeedback.textContent = "Passwords must match!";
+			passwordConfirm.classList.remove("is-valid");
+			passwordConfirm.classList.add("is-invalid");
+		} else {
+			passwordMatchFeedback.textContent = "";
+			passwordConfirm.classList.remove("is-invalid");
+			passwordConfirm.classList.add("is-valid");
 		}
 	}
 }

@@ -11,10 +11,10 @@
   <script src="./js/getposts.js" type="text/javascript"></script>
   <title>Home</title>
 </head>
-<body>
+<body onload="reloadPosts()">
 <%@ include file="header.html" %>
 <div class="container-fluid">
-  <div class="row">
+  <div class="row" id="post-container">
   </div>
 </div>
 </body>

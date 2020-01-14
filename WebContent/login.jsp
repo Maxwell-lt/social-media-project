@@ -23,12 +23,6 @@
                 <div class="form-group">
                     <label for="passwordInput">Password</label>
                     <input type="password" class="form-control" id="passwordInput" placeholder="Password"/>
-                    <div class="progress">
-                    	<div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="4" style="width: 20%" id="passwordMeter">
-                    		Extremely Weak
-                    	</div>
-                    </div>
-                    <small id="passwordFeedback" class="form-text"></small>
                 </div>
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="persistLogin"/>
@@ -42,9 +36,8 @@
 <script src="./js/zxcvbn.js"></script>
 <script src="./js/login.js"></script>
 <script>
-    let formValidator = getValidator(0, 1, document.getElementById("passwordFeedback"));
-    document.getElementById("loginForm").addEventListener("submit", formValidator, true);
-    document.getElementById("passwordInput").oninput = showPasswordFeedback;
+    //let formValidator = getValidator(0, 1, document.getElementById("passwordFeedback"));
+    //document.getElementById("loginForm").addEventListener("submit", formValidator, true);
 </script>
 </body>
 </html>
