@@ -7,17 +7,21 @@ create table users (
     `username` varchar(50) unique not null,
     `password` varchar(60) not null, # BCrypt password field
     `email` varchar(254) not null,
+    `creationDate` datetime not null,
+    `publicLikes` boolean not null default true, # Whether other users can view likes
     `adminPermissions` boolean not null default false,
     `moderatorPermissions` boolean not null default false,
-    `publicLikes` boolean not null default true
+    `deleted` boolean not null default false
 );
 
 create table posts (
     `id` int not null primary key auto_increment,
     `title` varchar(100) not null,
-    `image` varchar(36), # Refers to an image named with a UUID, without the file extension
+    `imageId` varchar(36), # Refers to an image named with a UUID, without the file extension
     `text` text,
     `user` int not null,
+    `timestamp` datetime not null,
+    `deleted` boolean not null default false,
     foreign key (id) references users(id)
 );
 
@@ -26,6 +30,8 @@ create table comments (
     `text` varchar(5000) not null,
     `user` int not null,
     `post` int not null,
+    `timestamp` datetime not null,
+    `deleted` boolean not null default false,
     foreign key (user) references users(id),
     foreign key (post) references posts(id)
 );
@@ -36,6 +42,7 @@ create table purchasedlikes (
     `pricePaid` decimal(13, 4) not null, # GAAP compatible money field
     `likesBought` int not null,
     `user` int not null,
+    `timestamp` datetime not null,
     foreign key (user) references users(id)
 );
 
@@ -45,6 +52,7 @@ create table grantedlikes (
     `likesGranted` int not null,
     `post` int not null,
     `user` int not null,
+    `timestamp` datetime not null,
     foreign key (post) references posts(id),
     foreign key (user) references users(id)
 );
@@ -55,6 +63,7 @@ create table spentlikes (
     `likesUsed` int not null,
     `post` int not null,
     `user` int not null,
+    `timestamp` datetime not null,
     foreign key (post) references posts(id),
     foreign key (user) references users(id)
 );

@@ -21,7 +21,7 @@
                     <input type="text" class="form-control" id="titleInput" placeholder="Enter title..." />
                 </div>
                 <div class="form-group">
-                    <label for="pictureInput">Upload a picture</label>
+                    <label for="pictureInput">Upload a picture (optional)</label>
                     <input type="file" class="form-control-file" id="pictureInput" />
                 </div>
                 <div class="form-group">
