@@ -41,5 +41,10 @@
 </div>
 <script src="./js/zxcvbn.js"></script>
 <script src="./js/login.js"></script>
+<script>
+    let formValidator = getValidator(0, 1, document.getElementById("passwordFeedback"));
+    document.getElementById("loginForm").addEventListener("submit", formValidator, true);
+    document.getElementById("passwordInput").oninput = showPasswordFeedback;
+</script>
 </body>
 </html>
