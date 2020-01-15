@@ -6,7 +6,7 @@ create table users (
     `id` int not null primary key auto_increment,
     `username` varchar(50) unique not null,
     `password` varchar(60) not null, # BCrypt password field
-    `email` varchar(254) not null,
+    `email` varchar(254) unique not null,
     `creationDate` datetime not null,
     `publicLikes` boolean not null default true, # Whether other users can view likes
     `adminPermissions` boolean not null default false,
