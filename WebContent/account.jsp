@@ -23,7 +23,7 @@
                 <div class="col-md-8">
                     <div class="card-header col-md-12">
                         <h5 class="card-title">
-                            <a href="posts.jsp?postid=13">Lounging</a>
+                            <a href="post.jsp?postid=13">Lounging</a>
                             <span class="float-right"><i class="material-icons" style="color: #ff006b; cursor: pointer">favorite_border</i> 9001</span>
                         </h5>
                     </div>
