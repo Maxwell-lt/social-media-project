@@ -1,21 +1,15 @@
 package maxwell_lt.socialmediaproject.service;
 
 import maxwell_lt.socialmediaproject.entity.User;
-import org.eclipse.persistence.internal.jpa.querydef.CriteriaQueryImpl;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import java.util.List;
 import java.util.Optional;
 
-public class UserService {
-    private static final String PU_NAME = "social-media-persistence";
-
+public class UserService extends AbstractService {
     public static void createUser(User user) {
-        EntityManager em = Persistence.createEntityManagerFactory(PU_NAME).createEntityManager();
+        EntityManager em = getEntityManager();
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
@@ -23,21 +17,25 @@ public class UserService {
     }
 
     public static Optional<User> getUserById(int id) {
-        EntityManager em = Persistence.createEntityManagerFactory(PU_NAME).createEntityManager();
+        EntityManager em = getEntityManager();
         User user = em.find(User.class, id);
         em.close();
         return Optional.ofNullable(user);
     }
 
     public static Optional<User> getUserByUsername(String username) {
-        EntityManager em = Persistence.createEntityManagerFactory(PU_NAME).createEntityManager();
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery();
-        Root e = cq.from(User.class);
-        cq.where(cb.equal(e.get("username"), username));
-        Query query = em.createQuery(cq);
-        User user = (User) query.getSingleResult();
-        return Optional.ofNullable(user);
+        EntityManager em = getEntityManager();
+        Query getByUsername = em.createNamedQuery("findUserByUsername");
+        getByUsername.setParameter("username", username);
+        List<User> results = getByUsername.getResultList();
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
+    public static Optional<User> getUserByEmail(String email) {
+        EntityManager em = getEntityManager();
+        Query getByEmail = em.createNamedQuery("findUserByEmail");
+        getByEmail.setParameter("email", email);
+        List<User> results = getByEmail.getResultList();
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+    }
 }
