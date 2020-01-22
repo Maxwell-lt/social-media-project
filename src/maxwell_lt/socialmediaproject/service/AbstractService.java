@@ -1,21 +1,21 @@
 package maxwell_lt.socialmediaproject.service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.io.Closeable;
 
-public abstract class AbstractService {
-    private static final String PU_NAME = "social-media-persistence";
+public abstract class AbstractService implements Closeable {
+    protected EntityManagerFactory emf;
+    protected EntityManager em;
 
-    protected static EntityManager getEntityManager() {
-        return Persistence.createEntityManagerFactory(PU_NAME).createEntityManager();
+    public AbstractService() {
+        this.emf = Persistence.createEntityManagerFactory("social-media-persistence");
+        this.em = emf.createEntityManager();
     }
 
-    protected static void cleanupTransaction(EntityManager em) {
-        if (em.getTransaction().isActive()) {
-            em.getTransaction().rollback();
-        }
-        if (em.isOpen()) {
-            em.close();
-        }
+    public void close() {
+        em.close();
+        emf.close();
     }
 }

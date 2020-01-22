@@ -2,85 +2,65 @@ package maxwell_lt.socialmediaproject.service;
 
 import maxwell_lt.socialmediaproject.entity.User;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 
-import static maxwell_lt.socialmediaproject.service.UpdateResult.*;
-
 public class UserService extends AbstractService {
-    public static UpdateResult createUser(User user) {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
-            em.close();
-        } catch (EntityExistsException e) {
-            cleanupTransaction(em);
-            return DUPLICATE;
-        }
-        return SUCCESS;
+    public void createUser(User user) {
+        em.getTransaction().begin();
+        em.persist(user);
+        em.getTransaction().commit();
     }
 
-    public static Optional<User> getUserById(int id) {
-        EntityManager em = getEntityManager();
+    public Optional<User> getUserById(int id) {
         User user = em.find(User.class, id);
-        em.close();
         return Optional.ofNullable(user);
     }
 
-    public static Optional<User> getUserByUsername(String username) {
-        EntityManager em = getEntityManager();
+    public Optional<User> getUserByUsername(String username) {
         Query getByUsername = em.createNamedQuery("findUserByUsername");
         getByUsername.setParameter("username", username);
         List<User> results = getByUsername.getResultList();
         return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
-    public static Optional<User> getUserByEmail(String email) {
-        EntityManager em = getEntityManager();
+    public Optional<User> getUserByEmail(String email) {
         Query getByEmail = em.createNamedQuery("findUserByEmail");
         getByEmail.setParameter("email", email);
         List<User> results = getByEmail.getResultList();
+        getByEmail.getSingleResult();
         return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
-    public static UpdateResult updateUsername(int id, String username) {
+    public boolean updateUsername(int id, String username) {
         if (getUserByUsername(username).isPresent()) {
-            return DUPLICATE;
+            return false;
         }
-        EntityManager em = getEntityManager();
-        em.getTransaction().begin();
         User user = em.find(User.class, id);
-        if (user == null) {
+        if (user != null) {
+            user.setUsername(username);
+            em.getTransaction().commit();
+            return true;
+        } else {
             em.getTransaction().rollback();
-            em.close();
-            return NOT_FOUND;
+            return false;
         }
-        user.setUsername(username);
-        em.getTransaction().commit();
-        em.close();
-        return SUCCESS;
     }
 
-    public static UpdateResult updateEmail(int id, String email) {
+    public boolean updateEmail(int id, String email) {
         if (getUserByEmail(email).isPresent()) {
-            return DUPLICATE;
+            return false;
         }
-        EntityManager em = getEntityManager();
         em.getTransaction().begin();
         User user = em.find(User.class, id);
-        if (user == null) {
+        if (user != null) {
+            user.setEmail(email);
+            em.getTransaction().commit();
+            return true;
+        } else {
             em.getTransaction().rollback();
-            em.close();
-            return NOT_FOUND;
+            return false;
         }
-        user.setEmail(email);
-        em.getTransaction().commit();
-        em.close();
-        return SUCCESS;
     }
 }
