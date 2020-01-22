@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -35,7 +34,7 @@ public class User {
     private boolean hasModeratorPermissions;
     private boolean isDeleted;
     private Collection<Comment> commentsById;
-    private Post postById;
+    private Collection<Post> postsById;
     private Collection<Postlikes> postlikesById;
     private Collection<Purchase> purchasesById;
 
@@ -170,13 +169,13 @@ public class User {
         this.commentsById = commentsById;
     }
 
-    @OneToOne(mappedBy = "userById")
-    public Post getPostById() {
-        return postById;
+    @OneToMany(mappedBy = "userById")
+    public Collection<Post> getPostsById() {
+        return postsById;
     }
 
-    public void setPostById(Post postById) {
-        this.postById = postById;
+    public void setPostsById(Collection<Post> postsById) {
+        this.postsById = postsById;
     }
 
     @OneToMany(mappedBy = "userByUser")

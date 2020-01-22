@@ -5,8 +5,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
@@ -122,8 +122,8 @@ public class Post {
         this.commentsById = commentsById;
     }
 
-    @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     public User getUserById() {
         return userById;
     }
