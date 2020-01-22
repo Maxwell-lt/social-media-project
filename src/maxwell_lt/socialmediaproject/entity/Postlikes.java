@@ -18,6 +18,15 @@ public class Postlikes {
     private Post postByPost;
     private User userByUser;
 
+    public Postlikes() {
+    }
+
+    public Postlikes(int userid, int postid, int likes) {
+        user = userid;
+        post = postid;
+        likesUsed = likes;
+    }
+
     @Basic
     @Column(name = "likesUsed", nullable = false)
     public int getLikesUsed() {

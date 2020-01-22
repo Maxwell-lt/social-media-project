@@ -9,6 +9,14 @@ public class PostlikesPK implements Serializable {
     private int post;
     private int user;
 
+    public PostlikesPK() {
+    }
+
+    public PostlikesPK(int userid, int postid) {
+        user = userid;
+        post = postid;
+    }
+
     @Column(name = "post", nullable = false)
     @Id
     public int getPost() {
