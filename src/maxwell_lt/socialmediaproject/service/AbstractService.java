@@ -9,4 +9,13 @@ public abstract class AbstractService {
     protected static EntityManager getEntityManager() {
         return Persistence.createEntityManagerFactory(PU_NAME).createEntityManager();
     }
+
+    protected static void cleanupTransaction(EntityManager em) {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+        if (em.isOpen()) {
+            em.close();
+        }
+    }
 }
