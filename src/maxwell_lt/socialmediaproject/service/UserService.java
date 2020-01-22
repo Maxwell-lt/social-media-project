@@ -18,6 +18,7 @@ public class UserService extends AbstractService {
         return Optional.ofNullable(user);
     }
 
+    @SuppressWarnings("unchecked")
     public Optional<User> getUserByUsername(String username) {
         Query getByUsername = em.createNamedQuery("findUserByUsername");
         getByUsername.setParameter("username", username);
@@ -25,6 +26,7 @@ public class UserService extends AbstractService {
         return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
+    @SuppressWarnings("unchecked")
     public Optional<User> getUserByEmail(String email) {
         Query getByEmail = em.createNamedQuery("findUserByEmail");
         getByEmail.setParameter("email", email);
