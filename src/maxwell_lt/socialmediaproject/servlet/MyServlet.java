@@ -1,3 +1,5 @@
+package maxwell_lt.socialmediaproject.servlet;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +19,7 @@ public class MyServlet extends javax.servlet.http.HttpServlet {
             writer.println("<!DOCTYPE html><html>");
             writer.println("<head>");
             writer.println("<meta charset=\"UTF-8\" />");
-            writer.println("<title>MyServlet.java:doGet(): Servlet code!</title>");
+            writer.println("<title>maxwell_lt.socialmediaproject.servlet.MyServlet.java:doGet(): Servlet code!</title>");
             writer.println("</head>");
             writer.println("<body>");
 

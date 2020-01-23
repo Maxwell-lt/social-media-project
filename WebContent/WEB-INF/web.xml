@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>MyServlet</servlet-name>
-        <servlet-class>MyServlet</servlet-class>
+        <servlet-class>maxwell_lt.socialmediaproject.servlet.MyServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
