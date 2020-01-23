@@ -17,12 +17,12 @@ public class Post {
     private String title;
     private String imageId;
     private String text;
-    private int user;
+    private int userId;
     private Timestamp timestamp;
     private boolean deleted;
-    private Collection<Comment> commentsById;
-    private User userById;
-    private Collection<Postlikes> postlikesById;
+    private Collection<Comment> commentsInPost;
+    private User user;
+    private Collection<Postlikes> postlikesInPost;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -66,12 +66,12 @@ public class Post {
 
     @Basic
     @Column(name = "user", nullable = false)
-    public int getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(int user) {
-        this.user = user;
+    public void setUserId(int user) {
+        this.userId = user;
     }
 
     @Basic
@@ -100,7 +100,7 @@ public class Post {
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
         return id == post.id &&
-                user == post.user &&
+                userId == post.userId &&
                 deleted == post.deleted &&
                 Objects.equals(title, post.title) &&
                 Objects.equals(imageId, post.imageId) &&
@@ -110,34 +110,34 @@ public class Post {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, imageId, text, user, timestamp, deleted);
+        return Objects.hash(id, title, imageId, text, userId, timestamp, deleted);
     }
 
-    @OneToMany(mappedBy = "postByPost")
-    public Collection<Comment> getCommentsById() {
-        return commentsById;
+    @OneToMany(mappedBy = "post")
+    public Collection<Comment> getCommentsInPost() {
+        return commentsInPost;
     }
 
-    public void setCommentsById(Collection<Comment> commentsById) {
-        this.commentsById = commentsById;
+    public void setCommentsInPost(Collection<Comment> commentsById) {
+        this.commentsInPost = commentsById;
     }
 
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
-    public User getUserById() {
-        return userById;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserById(User userById) {
-        this.userById = userById;
+    public void setUser(User userById) {
+        this.user = userById;
     }
 
-    @OneToMany(mappedBy = "postByPost")
-    public Collection<Postlikes> getPostlikesById() {
-        return postlikesById;
+    @OneToMany(mappedBy = "post")
+    public Collection<Postlikes> getPostlikesInPost() {
+        return postlikesInPost;
     }
 
-    public void setPostlikesById(Collection<Postlikes> postlikesById) {
-        this.postlikesById = postlikesById;
+    public void setPostlikesInPost(Collection<Postlikes> postlikesById) {
+        this.postlikesInPost = postlikesById;
     }
 }

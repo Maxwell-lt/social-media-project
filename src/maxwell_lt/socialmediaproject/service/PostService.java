@@ -26,7 +26,7 @@ public class PostService extends AbstractService {
     public Collection<Post> getPostsByUserId(int id) {
         User user = em.find(User.class, id);
         if (user != null) {
-            return user.getPostsById();
+            return user.getPostsByUser();
         } else {
             return new ArrayList<>();
         }

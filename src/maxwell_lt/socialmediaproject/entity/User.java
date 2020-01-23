@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 @Entity
 @NamedQueries({
@@ -33,10 +34,10 @@ public class User {
     private boolean hasAdminPermissions;
     private boolean hasModeratorPermissions;
     private boolean isDeleted;
-    private Collection<Comment> commentsById;
-    private Collection<Post> postsById;
-    private Collection<Postlikes> postlikesById;
-    private Collection<Purchase> purchasesById;
+    private Collection<Comment> commentsByUser;
+    private Collection<Post> postsByUser;
+    private Collection<Postlikes> postlikesByUser;
+    private Collection<Purchase> purchasesByUser;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -160,39 +161,55 @@ public class User {
         return Objects.hash(id, username, password, email, creationDate, currentLikes, hasPublicLikes, hasAdminPermissions, hasModeratorPermissions, isDeleted);
     }
 
-    @OneToMany(mappedBy = "userByUser")
-    public Collection<Comment> getCommentsById() {
-        return commentsById;
+    @OneToMany(mappedBy = "user")
+    public Collection<Comment> getCommentsByUser() {
+        return commentsByUser;
     }
 
-    public void setCommentsById(Collection<Comment> commentsById) {
-        this.commentsById = commentsById;
+    public void setCommentsByUser(Collection<Comment> commentsById) {
+        this.commentsByUser = commentsById;
     }
 
-    @OneToMany(mappedBy = "userById")
-    public Collection<Post> getPostsById() {
-        return postsById;
+    @OneToMany(mappedBy = "user")
+    public Collection<Post> getPostsByUser() {
+        return postsByUser;
     }
 
-    public void setPostsById(Collection<Post> postsById) {
-        this.postsById = postsById;
+    public void setPostsByUser(Collection<Post> postsById) {
+        this.postsByUser = postsById;
     }
 
-    @OneToMany(mappedBy = "userByUser")
-    public Collection<Postlikes> getPostlikesById() {
-        return postlikesById;
+    @OneToMany(mappedBy = "user")
+    public Collection<Postlikes> getPostlikesByUser() {
+        return postlikesByUser;
     }
 
-    public void setPostlikesById(Collection<Postlikes> postlikesById) {
-        this.postlikesById = postlikesById;
+    public void setPostlikesByUser(Collection<Postlikes> postlikesById) {
+        this.postlikesByUser = postlikesById;
     }
 
-    @OneToMany(mappedBy = "userByUser")
-    public Collection<Purchase> getPurchasesById() {
-        return purchasesById;
+    @OneToMany(mappedBy = "user")
+    public Collection<Purchase> getPurchasesByUser() {
+        return purchasesByUser;
     }
 
-    public void setPurchasesById(Collection<Purchase> purchasesById) {
-        this.purchasesById = purchasesById;
+    public void setPurchasesByUser(Collection<Purchase> purchasesById) {
+        this.purchasesByUser = purchasesById;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("username='" + username + "'")
+                .add("password='" + password + "'")
+                .add("email='" + email + "'")
+                .add("creationDate=" + creationDate)
+                .add("currentLikes=" + currentLikes)
+                .add("hasPublicLikes=" + hasPublicLikes)
+                .add("hasAdminPermissions=" + hasAdminPermissions)
+                .add("hasModeratorPermissions=" + hasModeratorPermissions)
+                .add("isDeleted=" + isDeleted)
+                .toString();
     }
 }

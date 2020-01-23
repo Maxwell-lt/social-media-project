@@ -14,12 +14,12 @@ public class Comment {
     private int id;
     private String imageId;
     private String text;
-    private int user;
-    private int post;
+    private int userId;
+    private int postId;
     private Timestamp timestamp;
     private boolean deleted;
-    private User userByUser;
-    private Post postByPost;
+    private User user;
+    private Post post;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -53,22 +53,22 @@ public class Comment {
 
     @Basic
     @Column(name = "user", nullable = false)
-    public int getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(int user) {
-        this.user = user;
+    public void setUserId(int user) {
+        this.userId = user;
     }
 
     @Basic
     @Column(name = "post", nullable = false)
-    public int getPost() {
-        return post;
+    public int getPostId() {
+        return postId;
     }
 
-    public void setPost(int post) {
-        this.post = post;
+    public void setPostId(int post) {
+        this.postId = post;
     }
 
     @Basic
@@ -97,8 +97,8 @@ public class Comment {
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
         return id == comment.id &&
-                user == comment.user &&
-                post == comment.post &&
+                userId == comment.userId &&
+                postId == comment.postId &&
                 deleted == comment.deleted &&
                 Objects.equals(imageId, comment.imageId) &&
                 Objects.equals(text, comment.text) &&
@@ -107,26 +107,26 @@ public class Comment {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, imageId, text, user, post, timestamp, deleted);
+        return Objects.hash(id, imageId, text, userId, postId, timestamp, deleted);
     }
 
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
-    public User getUserByUser() {
-        return userByUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserByUser(User userByUser) {
-        this.userByUser = userByUser;
+    public void setUser(User userByUser) {
+        this.user = userByUser;
     }
 
     @ManyToOne
     @JoinColumn(name = "post", referencedColumnName = "id", nullable = false)
-    public Post getPostByPost() {
-        return postByPost;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostByPost(Post postByPost) {
-        this.postByPost = postByPost;
+    public void setPost(Post postByPost) {
+        this.post = postByPost;
     }
 }

@@ -31,7 +31,7 @@ public class PostlikesService extends AbstractService {
         user.setCurrentLikes(user.getCurrentLikes().subtract(new BigDecimal(numberOfLikes)));
 
         // Increment fractional likes for original poster
-        post.getUserById().setCurrentLikes(post.getUserById()
+        post.getUser().setCurrentLikes(post.getUser()
                 .getCurrentLikes()
                 .add(new BigDecimal(numberOfLikes)
                         .divide(new BigDecimal(100), 2, RoundingMode.UNNECESSARY)));

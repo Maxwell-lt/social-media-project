@@ -13,17 +13,17 @@ import java.util.Objects;
 @IdClass(PostlikesPK.class)
 public class Postlikes {
     private int likesUsed;
-    private int post;
-    private int user;
-    private Post postByPost;
-    private User userByUser;
+    private int postId;
+    private int userId;
+    private Post post;
+    private User user;
 
     public Postlikes() {
     }
 
     public Postlikes(int userid, int postid, int likes) {
-        user = userid;
-        post = postid;
+        userId = userid;
+        postId = postid;
         likesUsed = likes;
     }
 
@@ -39,22 +39,22 @@ public class Postlikes {
 
     @Id
     @Column(name = "post", nullable = false)
-    public int getPost() {
-        return post;
+    public int getPostId() {
+        return postId;
     }
 
-    public void setPost(int post) {
-        this.post = post;
+    public void setPostId(int post) {
+        this.postId = post;
     }
 
     @Id
     @Column(name = "user", nullable = false)
-    public int getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(int user) {
-        this.user = user;
+    public void setUserId(int user) {
+        this.userId = user;
     }
 
     @Override
@@ -63,32 +63,32 @@ public class Postlikes {
         if (o == null || getClass() != o.getClass()) return false;
         Postlikes postlikes = (Postlikes) o;
         return likesUsed == postlikes.likesUsed &&
-                post == postlikes.post &&
-                user == postlikes.user;
+                postId == postlikes.postId &&
+                userId == postlikes.userId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(likesUsed, post, user);
+        return Objects.hash(likesUsed, postId, userId);
     }
 
     @ManyToOne
     @JoinColumn(name = "post", referencedColumnName = "id", nullable = false)
-    public Post getPostByPost() {
-        return postByPost;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostByPost(Post postByPost) {
-        this.postByPost = postByPost;
+    public void setPost(Post postByPost) {
+        this.post = postByPost;
     }
 
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
-    public User getUserByUser() {
-        return userByUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserByUser(User userByUser) {
-        this.userByUser = userByUser;
+    public void setUser(User userByUser) {
+        this.user = userByUser;
     }
 }

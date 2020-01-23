@@ -15,9 +15,9 @@ public class Purchase {
     private int id;
     private BigDecimal pricePaid;
     private int likesBought;
-    private int user;
+    private int userId;
     private Timestamp timestamp;
-    private User userByUser;
+    private User user;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -51,12 +51,12 @@ public class Purchase {
 
     @Basic
     @Column(name = "user", nullable = false)
-    public int getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(int user) {
-        this.user = user;
+    public void setUserId(int user) {
+        this.userId = user;
     }
 
     @Basic
@@ -76,23 +76,23 @@ public class Purchase {
         Purchase purchase = (Purchase) o;
         return id == purchase.id &&
                 likesBought == purchase.likesBought &&
-                user == purchase.user &&
+                userId == purchase.userId &&
                 Objects.equals(pricePaid, purchase.pricePaid) &&
                 Objects.equals(timestamp, purchase.timestamp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, pricePaid, likesBought, user, timestamp);
+        return Objects.hash(id, pricePaid, likesBought, userId, timestamp);
     }
 
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
-    public User getUserByUser() {
-        return userByUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserByUser(User userByUser) {
-        this.userByUser = userByUser;
+    public void setUser(User userByUser) {
+        this.user = userByUser;
     }
 }

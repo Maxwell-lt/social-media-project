@@ -19,21 +19,21 @@ public class PostlikesPK implements Serializable {
 
     @Column(name = "post", nullable = false)
     @Id
-    public int getPost() {
+    public int getPostId() {
         return post;
     }
 
-    public void setPost(int post) {
+    public void setPostId(int post) {
         this.post = post;
     }
 
     @Column(name = "user", nullable = false)
     @Id
-    public int getUser() {
+    public int getUserId() {
         return user;
     }
 
-    public void setUser(int user) {
+    public void setUserId(int user) {
         this.user = user;
     }
 
