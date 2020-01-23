@@ -16,14 +16,14 @@ create table user (
 );
 
 create table post (
-    `id` int not null primary key auto_increment,
-    `title` varchar(100) not null,
-    `imageId` varchar(36), # Refers to an image named with a UUID, without the file extension
-    `text` text,
-    `user` int not null,
-    `timestamp` datetime not null,
-    `deleted` boolean not null default false,
-    foreign key (id) references user(id)
+                      `id` int not null primary key auto_increment,
+                      `title` varchar(100) not null,
+                      `imageId` varchar(36), # Refers to an image named with a UUID, without the file extension
+                      `text` text,
+                      `user` int not null,
+                      `timestamp` datetime not null,
+                      `deleted` boolean not null default false,
+                      foreign key (user) references user (id)
 );
 
 create table comment (
