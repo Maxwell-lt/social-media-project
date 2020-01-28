@@ -2,11 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7229b9b9-5438-4aa7-8a73-eaf2ac61d1db" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e95bb8ae-93f1-48e5-b326-5efd4606c026.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e95bb8ae-93f1-48e5-b326-5efd4606c026.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/CTStudent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_h2database_h2_1_4_194.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_nulab_inc_zxcvbn_1_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mariadb_jdbc_mariadb_java_client_2_5_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/maxwell_lt/socialmediaproject/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/maxwell_lt/socialmediaproject/utilities/UserUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/maxwell_lt/socialmediaproject/view/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/socialmediaproject_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/socialmediaproject_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_13_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_14_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_mariadb_jdbc_mariadb_java_client_2_5_4.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/socialmediaproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/socialmediaproject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/maxwell_lt/socialmediaproject/SocialMediaProjectApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maxwell_lt/socialmediaproject/SocialMediaProjectApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/maxwell_lt/socialmediaproject/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/maxwell_lt/socialmediaproject/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/register.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,13 +59,20 @@
         <item name="socialmediaproject@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="socialmediaproject: schema" type="ebfa3cd1:MariaImplModel$Schema" />
-        <item name="postlikes: table" type="dbc44a63:MariaImplModel$Table" />
+        <item name="user: table" type="dbc44a63:MariaImplModel$Table" />
       </path>
     </expand>
     <select />
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -77,6 +98,7 @@
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -89,16 +111,20 @@
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
-    </key>
-    <key name="ImportMappingsDialog.RecentPackages">
-      <recent name="maxwell_lt.socialmediaproject.entity" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="maxwell_lt.socialmediaproject.dto" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/static" />
       <recent name="$PROJECT_DIR$/src/main/java/maxwell_lt/socialmediaproject/entity" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="ImportMappingsDialog.RecentPackages">
+      <recent name="maxwell_lt.socialmediaproject.entity" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\social-media-project-spring\src\main\resources" />
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
     </key>
   </component>
   <component name="RunManager">
@@ -152,6 +178,10 @@
       </list>
     </option>
   </component>
+  <component name="SpringBeansView">
+    <option name="showGraph" value="false" />
+    <option name="beanDetailsProportion" value="0.3" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -164,7 +194,7 @@
       <updated>1580174076148</updated>
       <workItem from="1580174078043" duration="4169000" />
       <workItem from="1580178720043" duration="625000" />
-      <workItem from="1580218881628" duration="1111000" />
+      <workItem from="1580218881628" duration="19405000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to Spring project">
       <created>1580179275058</created>
@@ -173,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580179275058</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Get project running again">
+      <created>1580220224709</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1580220224709</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,19 +219,25 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <MESSAGE value="Convert to Spring project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Convert to Spring project" />
+    <MESSAGE value="Get project running again" />
+    <option name="LAST_COMMIT_MESSAGE" value="Get project running again" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="238" y="0" key="#All_in_socialmediaproject" timestamp="1580245361492">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="238" y="0" key="#All_in_socialmediaproject/0.0.1280.680@0.0.1280.680" timestamp="1580245361492" />
     <state x="2475" y="189" width="800" height="678" key="#Assign_Data_Sources" timestamp="1580176003577">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2475" y="189" width="800" height="678" key="#Assign_Data_Sources/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580176003577" />
-    <state x="2475" y="189" width="800" height="678" key="#Project_Structure" timestamp="1580178291063">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="370" y="119" width="658" height="522" key="#Project_Structure" timestamp="1580238789737">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="370" y="119" width="658" height="522" key="#Project_Structure/0.0.1280.680@0.0.1280.680" timestamp="1580238789737" />
     <state x="2475" y="189" width="800" height="678" key="#Project_Structure/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580178291063" />
     <state x="418" y="181" width="948" height="663" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580178732027">
       <screen x="0" y="0" width="1920" height="1055" />
@@ -209,9 +252,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2626" y="365" width="497" height="326" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580178010180" />
-    <state x="2688" y="214" width="374" height="627" key="#com.intellij.ide.util.MemberChooser" timestamp="1580177545360">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="512" y="135" width="514" height="395" key="#com.intellij.ide.util.MemberChooser" timestamp="1580230767630">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="512" y="135" width="514" height="395" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1580230767630" />
     <state x="2688" y="214" width="374" height="627" key="#com.intellij.ide.util.MemberChooser/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177545360" />
     <state x="2607" y="326" width="524" height="445" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1580177402160">
       <screen x="1920" y="0" width="1920" height="1080" />
@@ -226,58 +270,59 @@
     </state>
     <state x="693" y="270" width="524" height="503" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/1920.0.1920.1080/0.0.1920.1055@0.0.1920.1055" timestamp="1580178888690" />
     <state x="2613" y="276" width="524" height="503" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177471226" />
-    <state x="425" y="124" width="1060" height="808" key="CommitChangelistDialog2" timestamp="1580179274724">
-      <screen x="0" y="0" width="1920" height="1055" />
+    <state x="283" y="80" width="707" height="570" key="CommitChangelistDialog2" timestamp="1580220223138">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="283" y="80" width="707" height="570" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1580220223138" />
     <state x="425" y="124" width="1060" height="808" key="CommitChangelistDialog2/1920.0.1920.1080/0.0.1920.1055@0.0.1920.1055" timestamp="1580179274724" />
     <state x="339" y="45" key="FileChooserDialogImpl" timestamp="1580219531025">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="339" y="45" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1580219531025" />
-    <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1580220029683">
+    <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1580241190898">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1580220029683" />
+    <state width="1237" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1580241190898" />
     <state width="1874" height="278" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177962333" />
-    <state width="1237" height="163" key="GridCell.Tab.0.center" timestamp="1580220029683">
+    <state width="1237" height="163" key="GridCell.Tab.0.center" timestamp="1580241190897">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1580220029683" />
+    <state width="1237" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1580241190897" />
     <state width="1874" height="278" key="GridCell.Tab.0.center/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177962333" />
-    <state width="1237" height="163" key="GridCell.Tab.0.left" timestamp="1580220029682">
+    <state width="1237" height="163" key="GridCell.Tab.0.left" timestamp="1580241190897">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1580220029682" />
+    <state width="1237" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1580241190897" />
     <state width="1874" height="278" key="GridCell.Tab.0.left/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177962333" />
-    <state width="1237" height="163" key="GridCell.Tab.0.right" timestamp="1580220029683">
+    <state width="1237" height="163" key="GridCell.Tab.0.right" timestamp="1580241190897">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1580220029683" />
+    <state width="1237" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1580241190897" />
     <state width="1874" height="278" key="GridCell.Tab.0.right/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177962333" />
-    <state width="1237" height="163" key="GridCell.Tab.1.bottom" timestamp="1580220050832">
+    <state width="1237" height="163" key="GridCell.Tab.1.bottom" timestamp="1580241190899">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1580220050832" />
+    <state width="1237" height="163" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1580241190899" />
     <state width="1874" height="278" key="GridCell.Tab.1.bottom/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177962333" />
-    <state width="1237" height="163" key="GridCell.Tab.1.center" timestamp="1580220050832">
+    <state width="1237" height="163" key="GridCell.Tab.1.center" timestamp="1580241190898">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1580220050832" />
+    <state width="1237" height="163" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1580241190898" />
     <state width="1874" height="278" key="GridCell.Tab.1.center/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177962333" />
-    <state width="1237" height="163" key="GridCell.Tab.1.left" timestamp="1580220050831">
+    <state width="1237" height="163" key="GridCell.Tab.1.left" timestamp="1580241190898">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1580220050831" />
+    <state width="1237" height="163" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1580241190898" />
     <state width="1874" height="278" key="GridCell.Tab.1.left/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177962333" />
-    <state width="1237" height="163" key="GridCell.Tab.1.right" timestamp="1580220050832">
+    <state width="1237" height="163" key="GridCell.Tab.1.right" timestamp="1580241190899">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1580220050832" />
+    <state width="1237" height="163" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1580241190899" />
     <state width="1874" height="278" key="GridCell.Tab.1.right/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580177962333" />
-    <state x="295" y="66" width="1007" height="731" key="SettingsEditor" timestamp="1580219532192">
+    <state x="242" y="0" width="1007" height="731" key="SettingsEditor" timestamp="1580242634450">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="295" y="66" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1580219532192" />
+    <state x="242" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1580242634450" />
     <state x="443" y="103" width="1007" height="731" key="SettingsEditor/1920.0.1920.1080/0.0.1920.1055@0.0.1920.1055" timestamp="1580179019221" />
     <state x="2363" y="105" width="1024" height="846" key="SettingsEditor/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580175206748" />
     <state x="555" y="263" width="800" height="529" key="Vcs.Push.Dialog.v2" timestamp="1580179294479">
@@ -288,6 +333,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2578" y="423" width="583" height="210" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/1920.0.1920.1080/0.0.1920.1055@1920.0.1920.1080" timestamp="1580174283370" />
+    <state x="0" y="0" width="612" height="680" key="find.popup" timestamp="1580229358918">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="0" y="0" width="612" height="680" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1580229358918" />
     <state x="91" y="44" key="new project wizard" timestamp="1580219362016">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

@@ -10,7 +10,7 @@
           <factory-entry name="social-media-persistence" />
         </datasource-mapping>
         <naming-strategy-map />
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/META-INF/persistence.xml" />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -39,7 +39,6 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="org.mariadb.jdbc:mariadb-java-client:2.5.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.2.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.2.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.5" level="project" />
@@ -137,7 +136,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.5.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.5.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-junit-jupiter:3.1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.13.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest:2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-core:3.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy-agent:1.10.6" level="project" />
@@ -150,5 +148,9 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.6.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:5.2.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.2.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.nulab-inc:zxcvbn:1.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.mariadb.jdbc:mariadb-java-client:2.5.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.14.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.h2database:h2:1.4.194" level="project" />
   </component>
 </module>

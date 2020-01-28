@@ -11,24 +11,26 @@
     <title>Register</title>
 </head>
 <body>
-<div th:replace="header :: header"></div>
+<div th:replace="header :: logged-out"></div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6 mx-auto my-5">
-            <form action="register.jsp" id="loginForm" method="post">
+            <form action="#" id="loginForm" method="post" th:action="@{/newuser}" th:object="${userdto}">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input class="form-control" id="username" placeholder="Username" type="text"/>
+                    <input class="form-control" id="username" placeholder="Username" th:field="*{username}"
+                           type="text"/>
                 </div>
                 <div class="form-group">
                     <label for="emailInput">Email address</label>
-                    <input class="form-control" id="emailInput" placeholder="Enter email" type="email"/>
+                    <input class="form-control" id="emailInput" placeholder="Enter email" th:field="*{email}"
+                           type="email"/>
                 </div>
                 <div class="form-group">
                     <label for="passwordInput">Password</label>
                     <input aria-describedby="passwordFeedback" class="form-control" id="passwordInput"
-                           placeholder="Password"
-                           type="password"/>
+                           name="password"
+                           placeholder="Password" th:field="*{rawPassword}" type="password"/>
                     <div class="progress">
                         <div aria-valuemax="4" aria-valuemin="0" aria-valuenow="0" class="progress-bar bg-danger"
                              id="passwordMeter" role="progressbar" style="width: 20%">
