@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SocialMediaProjectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="socialmediaproject" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="maxwell_lt.socialmediaproject.SocialMediaProjectApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
     <persistence-unit name="social-media-persistence">
-        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>maxwell_lt.socialmediaproject.entity.Comment</class>
         <class>maxwell_lt.socialmediaproject.entity.Post</class>
         <class>maxwell_lt.socialmediaproject.entity.Postlikes</class>

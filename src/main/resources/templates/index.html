@@ -1,0 +1,20 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/js/getposts.js" type="text/javascript"></script>
+    <title>Home</title>
+</head>
+<body onload="reloadPosts()">
+<div th:replace="header :: header"></div>
+<div class="container-fluid">
+    <div class="row" id="post-container">
+    </div>
+</div>
+</body>
+</html>

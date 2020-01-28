@@ -1,0 +1,37 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <title>Create a post</title>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 mx-auto my-5">
+            <form action="post.jsp" id="postForm" method="post">
+                <div class="form-group">
+                    <label for="titleInput">Title</label>
+                    <input class="form-control" id="titleInput" placeholder="Enter title..." type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="pictureInput">Upload a picture (optional)</label>
+                    <input class="form-control-file" id="pictureInput" type="file"/>
+                </div>
+                <div class="form-group">
+                    <label for="postInput">Post Text</label>
+                    <textarea class="form-control" id="postInput" rows="8"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Create Post</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

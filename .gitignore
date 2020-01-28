@@ -1,96 +1,33 @@
-# Directories #
-build/
-bin/
+HELP.md
 target/
-libs/
-tmp/
-node_modules/
-out/
- 
-# OS Files #
-.DS_Store
- 
-*.class
- 
-# Package Files #
-*.jar
-*.war
-*.ear
-*.db
-rebel.xml
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
 
-######################
-# Windows
-######################
- 
-# Windows image file caches
-Thumbs.db 
- 
-# Folder config file
-Desktop.ini
- 
-######################
-# OSX
-######################
- 
-.DS_Store
-.svn
- 
-# Thumbnails
-._*
- 
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-######################
-# NetBeans
-######################
-nbproject/
-build/
-nbbuild/
-dist/
-nbdist/
-nbactions.xml
-nb-configuration.xml
- 
-######################
-# IDEA
-######################
+### IntelliJ IDEA ###
+.idea
+*.iws
 *.iml
 *.ipr
-*.iws
-.idea/
-atlassian-ide-plugin.xml
 
- 
-######################
-# Eclipse
-######################
- 
-*.pydevproject
-.project
-.metadata
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.classpath
-.settings/
-.loadpath
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
 
-# External tool builders
-.externalToolBuilders/
- 
-# Locally stored "Eclipse launch configurations"
-*.launch
- 
-# CDT-specific
-.cproject
- 
-# PDT-specific
-.buildpath
+### VS Code ###
+.vscode/
 
-# Testing environment specific
-derby.log
+!.idea
