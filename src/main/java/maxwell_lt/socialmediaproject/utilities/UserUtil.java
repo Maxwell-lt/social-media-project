@@ -3,22 +3,34 @@ package maxwell_lt.socialmediaproject.utilities;
 import com.nulabinc.zxcvbn.Zxcvbn;
 import maxwell_lt.socialmediaproject.dto.UserDTO;
 import maxwell_lt.socialmediaproject.entity.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+@Service
 public class UserUtil {
-    public static boolean isUserDTOValid(UserDTO user) {
-        Zxcvbn passwordTester = new Zxcvbn();
-        return passwordTester.measure(user.getRawPassword()).getScore() > 2
-                || user.getUsername().length() > 50
-                || user.getEmail().length() > 254;
+
+    private PasswordEncoder passwordEncoder;
+    private Zxcvbn zxcvbn;
+
+    @Autowired
+    public UserUtil(PasswordEncoder passwordEncoder, Zxcvbn zxcvbn) {
+        this.passwordEncoder = passwordEncoder;
+        this.zxcvbn = zxcvbn;
     }
 
-    public static User createUserFromUserDTO(UserDTO userDTO) {
-        String hashedPassword = new BCryptPasswordEncoder().encode(userDTO.getRawPassword());
+    public boolean isUserDTOValid(UserDTO user) {
+        return (zxcvbn.measure(user.getRawPassword()).getScore() > 2
+                || user.getUsername().length() > 50
+                || user.getEmail().length() > 254);
+    }
+
+    public User createUserFromUserDTO(UserDTO userDTO) {
+        String hashedPassword = passwordEncoder.encode(userDTO.getRawPassword());
 
         User userEntity = new User();
         userEntity.setUsername(userDTO.getUsername());

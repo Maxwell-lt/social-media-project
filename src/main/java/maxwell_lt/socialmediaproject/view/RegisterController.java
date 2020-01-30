@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegisterController {
 
     private UserService userService;
+    private UserUtil userUtil;
 
     @Autowired
-    public RegisterController(UserService userService) {
+    public RegisterController(UserService userService, UserUtil userUtil) {
         this.userService = userService;
+        this.userUtil = userUtil;
     }
 
     @GetMapping("/register")
@@ -29,11 +31,11 @@ public class RegisterController {
 
     @PostMapping("/newuser")
     public String registerPost(@ModelAttribute UserDTO userDTO) {
-        if (!UserUtil.isUserDTOValid(userDTO)) {
+        if (!userUtil.isUserDTOValid(userDTO)) {
             return "index";
         }
 
-        User userEntity = UserUtil.createUserFromUserDTO(userDTO);
+        User userEntity = userUtil.createUserFromUserDTO(userDTO);
         userService.createUser(userEntity);
 
         return "index";
