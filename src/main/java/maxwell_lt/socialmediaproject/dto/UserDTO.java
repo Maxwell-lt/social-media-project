@@ -1,11 +1,24 @@
 package maxwell_lt.socialmediaproject.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.StringJoiner;
 
 public class UserDTO {
+
+    @NotNull
+    @NotEmpty
+    @Size(max = 50)
     private String username;
+    @NotNull
+    @NotEmpty
+    @Size(max = 254)
     private String email;
+    @NotNull
+    @NotEmpty
+    @Size(max = 48)
     private String rawPassword;
 
     public UserDTO() {

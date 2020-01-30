@@ -32,7 +32,7 @@ public class RegisterController {
     @PostMapping("/newuser")
     public String registerPost(@ModelAttribute UserDTO userDTO) {
         if (!userUtil.isUserDTOValid(userDTO)) {
-            return "index";
+            return "error";
         }
 
         User userEntity = userUtil.createUserFromUserDTO(userDTO);

@@ -1,6 +1,5 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -52,7 +51,7 @@
 <script src="/js/zxcvbn.js"></script>
 <script src="/js/login.js"></script>
 <script>
-    let formValidator = getValidator(1, 2, document.getElementById("passwordFeedback"), 3);
+    let formValidator = getValidator(2, 3, document.getElementById("passwordFeedback"), 4);
     document.getElementById("loginForm").addEventListener("submit", formValidator, true);
     document.getElementById("passwordInput").oninput = getFeedbackDisplay(document.getElementById("passwordMeter"),
         document.getElementById("passwordFeedback"));
