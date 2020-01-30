@@ -2,33 +2,32 @@ package maxwell_lt.socialmediaproject.service;
 
 import maxwell_lt.socialmediaproject.entity.Post;
 import maxwell_lt.socialmediaproject.entity.User;
+import maxwell_lt.socialmediaproject.repository.PostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-public class PostService extends AbstractService {
-    public PostService() {
-        super();
+@Service
+public class PostService {
+
+    private PostRepository postRepository;
+
+    @Autowired
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
     public void createPost(Post post) {
-        em.getTransaction().begin();
-        em.persist(post);
-        em.getTransaction().commit();
+        postRepository.save(post);
     }
 
     public Optional<Post> getPostById(int id) {
-        Post post = em.find(Post.class, id);
-        return Optional.ofNullable(post);
+        return postRepository.findById(id);
     }
 
-    public Collection<Post> getPostsByUserId(int id) {
-        User user = em.find(User.class, id);
-        if (user != null) {
-            return user.getPosts();
-        } else {
-            return new ArrayList<>();
-        }
+    public Collection<Post> getPostsByUser(User user) {
+        return postRepository.findAllByUser(user);
     }
 }

@@ -1,68 +1,50 @@
 package maxwell_lt.socialmediaproject.service;
 
 import maxwell_lt.socialmediaproject.entity.User;
+import maxwell_lt.socialmediaproject.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
-import java.util.List;
 import java.util.Optional;
 
-public class UserService extends AbstractService {
+@Service
+public class UserService {
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public void createUser(User user) {
-        em.getTransaction().begin();
-        em.persist(user);
-        em.getTransaction().commit();
+        userRepository.save(user);
     }
 
     public Optional<User> getUserById(int id) {
-        User user = em.find(User.class, id);
-        return Optional.ofNullable(user);
+        return userRepository.findById(id);
     }
 
-    @SuppressWarnings("unchecked")
     public Optional<User> getUserByUsername(String username) {
-        Query getByUsername = em.createNamedQuery("findUserByUsername");
-        getByUsername.setParameter("username", username);
-        List<User> results = getByUsername.getResultList();
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        return userRepository.findByUsername(username);
     }
 
-    @SuppressWarnings("unchecked")
     public Optional<User> getUserByEmail(String email) {
-        Query getByEmail = em.createNamedQuery("findUserByEmail");
-        getByEmail.setParameter("email", email);
-        List<User> results = getByEmail.getResultList();
-        getByEmail.getSingleResult();
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        return userRepository.findByEmail(email);
     }
 
-    public boolean updateUsername(int id, String username) {
-        if (getUserByUsername(username).isPresent()) {
-            return false;
-        }
-        User user = em.find(User.class, id);
-        if (user != null) {
-            user.setUsername(username);
-            em.getTransaction().commit();
-            return true;
-        } else {
-            em.getTransaction().rollback();
-            return false;
-        }
+    @Transactional
+    public void updateUsername(int id, String username) {
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        user.setUsername(username);
+        userRepository.save(user);
     }
 
-    public boolean updateEmail(int id, String email) {
-        if (getUserByEmail(email).isPresent()) {
-            return false;
-        }
-        em.getTransaction().begin();
-        User user = em.find(User.class, id);
-        if (user != null) {
-            user.setEmail(email);
-            em.getTransaction().commit();
-            return true;
-        } else {
-            em.getTransaction().rollback();
-            return false;
-        }
+    @Transactional
+    public void updateEmail(int id, String email) {
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        user.setEmail(email);
+        userRepository.save(user);
     }
 }
