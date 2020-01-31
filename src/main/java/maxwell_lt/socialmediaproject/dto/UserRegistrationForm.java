@@ -1,30 +1,37 @@
 package maxwell_lt.socialmediaproject.dto;
 
+import maxwell_lt.socialmediaproject.validator.PasswordStrength;
+
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class UserDTO {
+public class UserRegistrationForm {
 
     @NotNull
     @NotEmpty
     @Size(max = 50)
     private String username;
+
     @NotNull
     @NotEmpty
     @Size(max = 254)
+    @Email
     private String email;
+
     @NotNull
     @NotEmpty
     @Size(max = 48)
+    @PasswordStrength
     private String rawPassword;
 
-    public UserDTO() {
+    public UserRegistrationForm() {
     }
 
-    public UserDTO(String username, String email, String rawPassword) {
+    public UserRegistrationForm(String username, String email, String rawPassword) {
         this.username = username;
         this.email = email;
         this.rawPassword = rawPassword;
@@ -56,7 +63,7 @@ public class UserDTO {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", UserDTO.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", UserRegistrationForm.class.getSimpleName() + "[", "]")
                 .add("username='" + username + "'")
                 .add("email='" + email + "'")
                 .add("rawPassword='" + rawPassword + "'")
@@ -67,10 +74,10 @@ public class UserDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return username.equals(userDTO.username) &&
-                email.equals(userDTO.email) &&
-                rawPassword.equals(userDTO.rawPassword);
+        UserRegistrationForm userRegistrationForm = (UserRegistrationForm) o;
+        return username.equals(userRegistrationForm.username) &&
+                email.equals(userRegistrationForm.email) &&
+                rawPassword.equals(userRegistrationForm.rawPassword);
     }
 
     @Override

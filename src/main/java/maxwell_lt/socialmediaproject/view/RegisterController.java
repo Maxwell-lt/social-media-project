@@ -1,15 +1,18 @@
 package maxwell_lt.socialmediaproject.view;
 
-import maxwell_lt.socialmediaproject.dto.UserDTO;
+import maxwell_lt.socialmediaproject.dto.UserRegistrationForm;
 import maxwell_lt.socialmediaproject.entity.User;
 import maxwell_lt.socialmediaproject.service.UserService;
 import maxwell_lt.socialmediaproject.utilities.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 
 @Controller
 public class RegisterController {
@@ -25,17 +28,18 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String register(Model model) {
-        model.addAttribute("userdto", new UserDTO());
+        model.addAttribute("registrationform", new UserRegistrationForm());
         return "register";
     }
 
-    @PostMapping("/newuser")
-    public String registerPost(@ModelAttribute UserDTO userDTO) {
-        if (!userUtil.isUserDTOValid(userDTO)) {
-            return "error";
+    @PostMapping("/register")
+    public String registerPost(@ModelAttribute @Valid UserRegistrationForm userRegistrationForm,
+                               BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/register";
         }
 
-        User userEntity = userUtil.createUserFromUserDTO(userDTO);
+        User userEntity = userUtil.createUserFromRegistrationForm(userRegistrationForm);
         userService.createUser(userEntity);
 
         return "index";
