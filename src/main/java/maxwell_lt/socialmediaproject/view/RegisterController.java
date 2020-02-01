@@ -6,7 +6,6 @@ import maxwell_lt.socialmediaproject.service.UserService;
 import maxwell_lt.socialmediaproject.utilities.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,16 +26,15 @@ public class RegisterController {
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("registrationform", new UserRegistrationForm());
+    public String register(@ModelAttribute("registrationform") UserRegistrationForm userRegistrationForm) {
         return "register";
     }
 
     @PostMapping("/register")
-    public String registerPost(@ModelAttribute @Valid UserRegistrationForm userRegistrationForm,
+    public String registerPost(@ModelAttribute("registrationform") @Valid UserRegistrationForm userRegistrationForm,
                                BindingResult result) {
         if (result.hasErrors()) {
-            return "redirect:/register";
+            return "register";
         }
 
         User userEntity = userUtil.createUserFromRegistrationForm(userRegistrationForm);

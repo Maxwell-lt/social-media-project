@@ -1,29 +1,13 @@
 package maxwell_lt.socialmediaproject.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(
-                name = "findUserByUsername",
-                query = "select object(u) from User u where u.username = :username"
-        ),
-        @NamedQuery(
-                name = "findUserByEmail",
-                query = "select object(u) from User u where u.email = :email"
-        )})
+@Table(name = "user")
 public class User {
     private int id;
     private String username;

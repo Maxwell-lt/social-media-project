@@ -1,6 +1,8 @@
 package maxwell_lt.socialmediaproject.dto;
 
+import maxwell_lt.socialmediaproject.validator.EmailNotExist;
 import maxwell_lt.socialmediaproject.validator.PasswordStrength;
+import maxwell_lt.socialmediaproject.validator.UsernameNotExist;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -12,24 +14,23 @@ import java.util.StringJoiner;
 public class UserRegistrationForm {
 
     @NotNull
-    @NotEmpty
-    @Size(max = 50)
+    @NotEmpty(message = "Username cannot be empty!")
+    @Size(max = 50, message = "Size must be between 1 and 50 characters!")
+    @UsernameNotExist
     private String username;
 
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Email cannot be empty!")
     @Size(max = 254)
     @Email
+    @EmailNotExist
     private String email;
 
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Password cannot be empty!")
     @Size(max = 48)
     @PasswordStrength
     private String rawPassword;
-
-    public UserRegistrationForm() {
-    }
 
     public UserRegistrationForm(String username, String email, String rawPassword) {
         this.username = username;

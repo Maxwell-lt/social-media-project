@@ -1,27 +1,12 @@
 package maxwell_lt.socialmediaproject.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@NamedQuery(
-        name = "getTotalPaidByUser",
-        query = "select sum(p.pricePaid) from Purchase p where p.user = :user"
-)
-@NamedQuery(
-        name = "getAllPaymentsByUser",
-        query = "select p from Purchase p where p.user = :user"
-)
+@Table(name = "purchase")
 public class Purchase {
     private int id;
     private BigDecimal pricePaid;
