@@ -21,18 +21,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .loginPage("/perform_login")
+                .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")
                 .and()
                 .logout()
-                .logoutUrl("perform_logout")
+                .logoutSuccessUrl("/")
+                .logoutUrl("/perform_logout")
+                .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean

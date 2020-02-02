@@ -1,13 +1,15 @@
 package maxwell_lt.socialmediaproject.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "purchase")
-public class Purchase {
+public class Purchase implements Serializable {
+    private static final long serialVersionUID = -5652455383562659476L;
     private int id;
     private BigDecimal pricePaid;
     private int likesBought;

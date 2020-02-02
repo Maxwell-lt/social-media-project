@@ -1,6 +1,7 @@
 package maxwell_lt.socialmediaproject.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -8,7 +9,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = -4075652021712217438L;
     private int id;
     private String username;
     private String password;

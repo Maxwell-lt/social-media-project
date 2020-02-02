@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class PostlikesPK implements Serializable {
+    private static final long serialVersionUID = -1862740719633821082L;
     private int post;
     private int user;
 

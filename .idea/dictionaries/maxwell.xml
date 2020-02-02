@@ -2,6 +2,7 @@
   <dictionary name="maxwell">
     <words>
       <w>getposts</w>
+      <w>postlikes</w>
       <w>zxcvbn</w>
     </words>
   </dictionary>

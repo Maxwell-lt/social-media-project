@@ -1,12 +1,14 @@
 package maxwell_lt.socialmediaproject.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @IdClass(PostlikesPK.class)
 @Table(name = "postlikes")
-public class Postlikes {
+public class Postlikes implements Serializable {
+    private static final long serialVersionUID = -4574093077889577396L;
     private int postId;
     private int userId;
     private int likesUsed;

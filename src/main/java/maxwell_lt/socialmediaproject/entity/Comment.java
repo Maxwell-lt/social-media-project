@@ -1,12 +1,14 @@
 package maxwell_lt.socialmediaproject.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class Comment implements Serializable {
+    private static final long serialVersionUID = 498919718056149221L;
     private int id;
     private String imageId;
     private String text;
