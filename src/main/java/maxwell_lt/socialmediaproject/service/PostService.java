@@ -19,8 +19,9 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public void createPost(Post post) {
+    public int createPost(Post post) {
         postRepository.save(post);
+        return post.getId();
     }
 
     public Optional<Post> getPostById(int id) {

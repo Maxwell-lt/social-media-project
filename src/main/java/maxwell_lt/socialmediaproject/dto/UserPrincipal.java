@@ -27,7 +27,12 @@ public class UserPrincipal implements UserDetails {
         if (user.isHasAdminPermissions()) {
             authorities.add(new SimpleGrantedAuthority("admin"));
         }
+        authorities.add(new SimpleGrantedAuthority("user"));
         return authorities;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override

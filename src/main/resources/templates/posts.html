@@ -1,0 +1,23 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <title th:text="${title}"></title>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <h1 th:text="${title}"></h1>
+            <p th:text="${text}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

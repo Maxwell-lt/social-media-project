@@ -26,7 +26,7 @@ public class RegisterController {
     }
 
     @GetMapping("/register")
-    public String register(@ModelAttribute("registrationform") UserRegistrationForm userRegistrationForm) {
+    public String registerGet(@ModelAttribute("registrationform") UserRegistrationForm userRegistrationForm) {
         return "register";
     }
 

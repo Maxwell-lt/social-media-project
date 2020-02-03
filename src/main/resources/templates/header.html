@@ -13,7 +13,7 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="/login" sec:authorize="isAnonymous()">Login</a>
             <a class="nav-item nav-link" href="/register" sec:authorize="isAnonymous()">Register</a>
-            <a class="nav-item nav-link" href="/post" sec:authorize="isAuthenticated()">New Post</a>
+            <a class="nav-item nav-link" href="/newpost" sec:authorize="isAuthenticated()">New Post</a>
             <a class="nav-item nav-link" href="/account" sec:authorize="isAuthenticated()">Account</a>
             <form class="form-inline" method="post" sec:authorize="isAuthenticated()" th:action="@{/perform_logout}">
                 <button class="btn btn-success" type="submit">Logout</button>
