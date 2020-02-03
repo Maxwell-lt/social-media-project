@@ -30,7 +30,12 @@ public class PostlikesService {
     }
 
     public int getLikes(Post post) {
-        return postlikesRepository.findTotalLikesByPost(post);
+        return postlikesRepository.findTotalLikesByPost(post).orElse(0);
+    }
+
+    public int getLikesByUser(Post post, User user) {
+        return postlikesRepository.findByPostAndUser(post, user)
+                .map(Postlikes::getLikesUsed).orElse(0);
     }
 
     @Transactional

@@ -4,20 +4,63 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/js/jquery.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js" type="text/javascript"></script>
-    <title th:text="${title}"></title>
+    <title th:text="${postdto.post.title}"></title>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
 </head>
 <body>
 <div th:replace="header :: header"></div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6 mx-auto">
-            <h1 th:text="${title}"></h1>
-            <p th:text="${text}"></p>
+<div class="container my-2">
+    <div class="row border rounded bg-light">
+        <div class="col-md-6">
+            <div th:if="${postdto.post.imageId != null}">
+                <img class="img-fluid p-1 rounded" th:alt="${postdto.post.title}"
+                     th:src="@{/image(id=${postdto.post.imageId})}"/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h5 th:text="${postdto.post.title}"></h5>
+            <div>
+                <i id="likebutton" class="material-icons" style="color: #ff006b; cursor: pointer" th:text="${postdto.userLikes > 0} ? 'favorite' : 'favorite_border'"></i>
+                <span id="totallikes" th:text="${postdto.likes}"></span>
+                <span id="mylikes" style="color: #ff006b" th:text="${postdto.userLikes > 0} ? ${'+' + postdto.userLikes} : ''"></span>
+            </div>
+            <a class="text-muted" th:href="@{/account(user=${postdto.user.id})}"
+               th:text="${postdto.user.username}"></a>
+            <p th:text="${postdto.post.text}"></p>
         </div>
     </div>
 </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let postid = /*[[${postdto.post.id}]]*/ null;
+    /*]]>*/
+    var token = $("meta[name='_csrf']").attr("content");
+    let totalLikes = document.getElementById("totallikes");
+    let myLikes = document.getElementById("mylikes");
+    let likeButton = document.getElementById("likebutton");
+    function sendLike() {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/like", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        xhr.send("_csrf" + '=' + token +
+            '&postid=' + postid +
+            "&number=1");
+    }
+
+    function likePostOnce() {
+        sendLike();
+        totalLikes.textContent = parseInt(totalLikes.textContent, 10) + 1;
+        myLikes.textContent = myLikes.textContent !== "" ?
+            "+" + parseInt(myLikes.textContent, 10) + 1 :
+            "+1";
+        likeButton.textContent = "favorite";
+    }
+
+    likeButton.addEventListener("click", likePostOnce, true)
+</script>
 </body>
 </html>
