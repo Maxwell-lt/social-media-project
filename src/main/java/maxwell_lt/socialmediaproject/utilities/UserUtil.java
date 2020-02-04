@@ -27,7 +27,7 @@ public class UserUtil {
         userEntity.setUsername(userRegistrationForm.getUsername());
         userEntity.setEmail(userRegistrationForm.getEmail());
         userEntity.setPassword(hashedPassword);
-        userEntity.setCurrentLikes(new BigDecimal(0));
+        userEntity.setCurrentLikes(new BigDecimal(1000));
         userEntity.setCreationDate(Timestamp.from(Instant.now()));
         return userEntity;
     }

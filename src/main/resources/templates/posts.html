@@ -55,7 +55,7 @@
         sendLike();
         totalLikes.textContent = parseInt(totalLikes.textContent, 10) + 1;
         myLikes.textContent = myLikes.textContent !== "" ?
-            "+" + parseInt(myLikes.textContent, 10) + 1 :
+            "+" + (parseInt(myLikes.textContent, 10) + 1) :
             "+1";
         likeButton.textContent = "favorite";
     }
