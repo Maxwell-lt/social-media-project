@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -9,13 +10,33 @@
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="/js/getposts.js" type="text/javascript"></script>
-    <title>Account</title>
+    <script src="/js/remarkable.min.js" type="text/javascript"></script>
+    <title th:text="${user.username} + '\'s Account'">Account</title>
 </head>
 <body>
 <div th:replace="header :: header"></div>
 <div class="container">
-    <div class="row">
+    <div class="row border rounded bg-light my-3" th:each="post: ${posts}">
+        <div class="col-3">
+            <img class="img-fluid p-1 rounded" th:alt="${post.title}" th:if="${post.imageId != null}"
+                 th:src="@{/image(id=${post.imageId} + '_thumb')}"/>
+        </div>
+        <div class="col-9">
+            <a th:href="@{/post(post=${post.id})}"><h5 th:text="${post.title}"></h5></a>
+            <small class="text-muted" th:text="${'Posted ' + prettyTime.format(post.timestamp) + ' ago by'}"
+                   th:title="${#temporals.formatISO(post.timestamp.toInstant())}"></small>
+            <a class="text-muted" th:href="@{/account(user=${user.id})}"
+               th:text="${user.username}"></a>
+            <p class="markdown" th:text="${#strings.abbreviate(post.text, 140)}"></p>
+        </div>
     </div>
 </div>
+<script type="text/javascript">
+    const md = new remarkable.Remarkable();
+    Array.from(document.getElementsByClassName("markdown")).forEach(field => {
+        field.innerHTML = md.render(field.innerHTML);
+        field.innerHTML = field.textContent;
+    });
+</script>
 </body>
 </html>

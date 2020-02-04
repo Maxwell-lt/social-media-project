@@ -3,7 +3,6 @@ package maxwell_lt.socialmediaproject.dto;
 import maxwell_lt.socialmediaproject.entity.Post;
 import maxwell_lt.socialmediaproject.entity.User;
 
-import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.StringJoiner;
 
