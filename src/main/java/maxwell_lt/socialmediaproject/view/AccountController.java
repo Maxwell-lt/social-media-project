@@ -1,5 +1,6 @@
 package maxwell_lt.socialmediaproject.view;
 
+import maxwell_lt.socialmediaproject.dto.UserPrincipal;
 import maxwell_lt.socialmediaproject.entity.Comment;
 import maxwell_lt.socialmediaproject.entity.Post;
 import maxwell_lt.socialmediaproject.entity.User;
@@ -8,6 +9,7 @@ import maxwell_lt.socialmediaproject.service.PostService;
 import maxwell_lt.socialmediaproject.service.UserService;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,8 +35,16 @@ public class AccountController {
     }
 
     @GetMapping("/account")
-    public ModelAndView accountInfo(@RequestParam("user") int userId) {
+    public ModelAndView accountInfo(@RequestParam(value = "user", defaultValue = "-1") int userId) {
         ModelAndView mav = new ModelAndView("account");
+        if (userId == -1) {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User currentUser = null;
+            if (principal instanceof UserPrincipal) {
+                currentUser = ((UserPrincipal) principal).getUser();
+            }
+            userId = currentUser.getId();
+        }
         Optional<User> userOptional = userService.getUserById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
