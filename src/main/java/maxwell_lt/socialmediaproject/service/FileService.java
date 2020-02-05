@@ -1,12 +1,10 @@
 package maxwell_lt.socialmediaproject.service;
 
-import org.imgscalr.Scalr;
+import javaxt.io.Image;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,16 +27,14 @@ public class FileService {
     public String createImageFileAndThumbnail(MultipartFile imageFile) {
         String fileBaseName = UUID.randomUUID().toString();
         try {
-            BufferedImage image = ImageIO.read(imageFile.getInputStream());
-            BufferedImage scaledImage = Scalr.resize(image, 128);
-
-            File imageOutputFile = new File(resourceRoot + File.separator +
-                    fileBaseName + ".png");
-            File scaledImageOutputFile = new File(resourceRoot + File.separator +
-                    fileBaseName + "_thumb.png");
-
-            ImageIO.write(image, "png", imageOutputFile);
-            ImageIO.write(scaledImage, "png", scaledImageOutputFile);
+            Image image = new Image(imageFile.getInputStream());
+            System.out.println(image.getExifTags());
+            image.rotate();
+            image.saveAs(new File(resourceRoot + File.separator +
+                    fileBaseName + ".png"));
+            image.setHeight(128);
+            image.saveAs(new File(resourceRoot + File.separator +
+                    fileBaseName + "_thumb.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
