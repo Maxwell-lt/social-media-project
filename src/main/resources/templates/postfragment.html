@@ -15,7 +15,7 @@
         <a th:href="@{/post(post=${post.id})}"><h5 th:text="${post.title}"></h5></a>
         <small class="text-muted" th:text="${'Posted ' + prettyTime.format(post.timestamp) + ' ago by'}"
                th:title="${#temporals.formatISO(post.timestamp.toInstant())}"></small>
-        <a class="text-muted" th:href="@{/account(user=${post.user.id})}"
+        <a class="text-muted" th:href="@{/account/${post.user.id}}"
            th:text="${post.user.username}"></a>
         <p class="markdown" th:text="${#strings.abbreviate(post.text, 140)}"></p>
     </div>

@@ -35,7 +35,7 @@
             </div>
             <small class="text-muted"
                    th:text="${'Posted ' + prettyTime.format(postdto.post.timestamp) + ' ago by'}"></small>
-            <a class="text-muted" th:href="@{/account(user=${postdto.user.id})}"
+            <a class="text-muted" th:href="@{/account/${postdto.user.id}}"
                th:text="${postdto.user.username}"></a>
             <p class="markdown" th:text="${postdto.post.text}"></p>
         </div>

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
@@ -34,17 +34,27 @@ public class AccountController {
         this.prettyTime = prettyTime;
     }
 
+    @GetMapping("/account/{user}")
+    public ModelAndView accountInfo(@PathVariable(value = "user") int userId) {
+        return getModelFromUserId(userId);
+    }
+
     @GetMapping("/account")
-    public ModelAndView accountInfo(@RequestParam(value = "user", defaultValue = "-1") int userId) {
-        ModelAndView mav = new ModelAndView("account");
-        if (userId == -1) {
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            User currentUser = null;
-            if (principal instanceof UserPrincipal) {
-                currentUser = ((UserPrincipal) principal).getUser();
+    public ModelAndView myAccountInfo() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = null;
+        if (principal instanceof UserPrincipal) {
+            currentUser = ((UserPrincipal) principal).getUser();
+            if (currentUser != null) {
+                return getModelFromUserId(currentUser.getId());
             }
-            userId = currentUser.getId();
         }
+        return new ModelAndView("account");
+    }
+
+    private ModelAndView getModelFromUserId(int userId) {
+        ModelAndView mav = new ModelAndView("account");
+
         Optional<User> userOptional = userService.getUserById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
