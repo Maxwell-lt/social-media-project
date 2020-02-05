@@ -14,6 +14,8 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findAllByUser(User user);
 
-    @Query("select p from Post p order by p.timestamp")
-    Page<Post> findAllPostsWithPagination(Pageable pageable);
+    Page<Post> findByUser(User user, Pageable pageable);
+
+    @Query("select p from Post p where p.user = :user order by p.timestamp")
+    Page<Post> findAllByUser(User user, Pageable pageable);
 }

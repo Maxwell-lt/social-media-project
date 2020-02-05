@@ -6,6 +6,7 @@ import maxwell_lt.socialmediaproject.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -32,6 +33,10 @@ public class PostService {
 
     public Collection<Post> getPostsByUser(User user) {
         return postRepository.findAllByUser(user);
+    }
+
+    public Page<Post> getPostsByUser(User user, Pageable pageable) {
+        return postRepository.findByUser(user, pageable);
     }
 
     public Page<Post> getPostsAsPage(PageRequest page) {

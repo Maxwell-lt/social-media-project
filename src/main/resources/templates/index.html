@@ -1,18 +1,23 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/js/jquery.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <meta th:content="${_csrf.token}" th:name="_csrf"/>
     <title>Home</title>
 </head>
 <body>
 <div th:replace="header :: header"></div>
 <div class="container">
-    <div th:replace="postfragment :: posts(${posts}, ${prettyTime})"></div>
+    <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes}, ${prettyTime})"></div>
+    <div th:replace="postfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>
 </div>
+<script th:replace="postfragment :: likescript"></script>
 </body>
 </html>

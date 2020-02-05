@@ -1,24 +1,74 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<div class="row border rounded bg-light my-3" th:each="post: ${posts}" th:fragment="posts(posts, prettyTime)">
+<div class="row border rounded bg-light my-3" th:each="post: ${posts.getContent()}"
+     th:fragment="posts(posts, totalLikes, myLikes, prettyTime)">
     <div class="col-3">
         <img class="img-fluid p-1 rounded" th:alt="${post.title}" th:if="${post.imageId != null}"
              th:src="@{/image(id=${post.imageId} + '_thumb')}"/>
     </div>
     <div class="col-9">
         <a th:href="@{/post(post=${post.id})}"><h5 th:text="${post.title}"></h5></a>
+        <div th:replace=":: likeButton(${totalLikes.get(post.id)}, ${myLikes.get(post.id)}, ${post.id})"></div>
         <small class="text-muted" th:text="${'Posted ' + prettyTime.format(post.timestamp) + ' ago by'}"
                th:title="${#temporals.formatISO(post.timestamp.toInstant())}"></small>
-        <a class="text-muted" th:href="@{/account/${post.user.id}}"
+        <a class="text-muted" th:href="@{/account/{postid}(postid = ${post.user.id})}"
            th:text="${post.user.username}"></a>
         <p class="markdown" th:text="${#strings.abbreviate(post.text, 140)}"></p>
     </div>
 </div>
+<div class="row" th:fragment="pageNavigation(posts, pagenumbers)">
+    <nav aria-label="Page navigation" class="mx-auto">
+        <ul class="pagination" th:if="${posts.totalPages > 0}">
+            <li class="page-item" th:classappend="${pageNumber==posts.number + 1} ? active"
+                th:each="pageNumber : ${pagenumbers}">
+                <a class="page-link" th:href="@{''(page=${pageNumber}, size=${posts.size})}"
+                   th:text="${pageNumber}"></a></li>
+        </ul>
+    </nav>
+</div>
+<div class="like-unit" th:data-post-id="${postId}" th:fragment="likeButton(totalLikes, userLikes, postId)">
+    <i class="material-icons like-button" style="color: #ff006b; cursor: pointer"
+       th:text="${userLikes > 0} ? 'favorite' : 'favorite_border'"></i>
+    <span class="total-likes" th:text="${totalLikes}"></span>
+    <span class="my-likes" style="color: #ff006b"
+          th:text="${userLikes > 0} ? ${'+' + userLikes} : ''"></span>
+</div>
+<script sec:authorize="isAuthenticated()" th:fragment="likescript">
+    const token = document.getElementsByTagName('meta')["_csrf"].content;
+    let posts = Array.from(document.getElementsByClassName("like-unit"));
+
+    function getListener(likeUnit) {
+        const postId = likeUnit.getAttribute("data-post-id");
+        const likeButton = likeUnit.querySelector(".like-button");
+        const totalLikes = likeUnit.querySelector(".total-likes");
+        const myLikes = likeUnit.querySelector(".my-likes");
+
+        function sendLike() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/like", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+            xhr.send("_csrf=" + token +
+                '&postid=' + postId +
+                "&number=1");
+        }
+
+        return function () {
+            sendLike();
+            totalLikes.textContent = parseInt(totalLikes.textContent, 10) + 1;
+            myLikes.textContent = myLikes.textContent !== "" ?
+                "+" + (parseInt(myLikes.textContent, 10) + 1) :
+                "+1";
+            likeButton.textContent = "favorite";
+        }
+    }
+
+    posts.forEach(post => post.querySelector(".like-button").onclick = getListener(post));
+</script>
 </body>
 </html>
