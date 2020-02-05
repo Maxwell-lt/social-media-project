@@ -4,6 +4,8 @@ import maxwell_lt.socialmediaproject.entity.Post;
 import maxwell_lt.socialmediaproject.entity.User;
 import maxwell_lt.socialmediaproject.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -30,5 +32,10 @@ public class PostService {
 
     public Collection<Post> getPostsByUser(User user) {
         return postRepository.findAllByUser(user);
+    }
+
+    public Page<Post> getPostsAsPage(PageRequest page) {
+        return postRepository.findAll(page);
+
     }
 }

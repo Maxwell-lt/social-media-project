@@ -16,20 +16,7 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="container">
-    <div class="row border rounded bg-light my-3" th:each="post: ${posts}">
-        <div class="col-3">
-            <img class="img-fluid p-1 rounded" th:alt="${post.title}" th:if="${post.imageId != null}"
-                 th:src="@{/image(id=${post.imageId} + '_thumb')}"/>
-        </div>
-        <div class="col-9">
-            <a th:href="@{/post(post=${post.id})}"><h5 th:text="${post.title}"></h5></a>
-            <small class="text-muted" th:text="${'Posted ' + prettyTime.format(post.timestamp) + ' ago by'}"
-                   th:title="${#temporals.formatISO(post.timestamp.toInstant())}"></small>
-            <a class="text-muted" th:href="@{/account(user=${user.id})}"
-               th:text="${user.username}"></a>
-            <p class="markdown" th:text="${#strings.abbreviate(post.text, 140)}"></p>
-        </div>
-    </div>
+    <div th:replace="postfragment :: posts(${posts}, ${prettyTime})"></div>
 </div>
 <script type="text/javascript">
     const md = new remarkable.Remarkable();
