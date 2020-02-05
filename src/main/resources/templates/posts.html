@@ -1,6 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -26,13 +26,7 @@
         </div>
         <div th:class="${postdto.post.imageId == null} ? 'col-md-12' : 'col-md-6'">
             <h5 th:text="${postdto.post.title}"></h5>
-            <div>
-                <i class="material-icons" id="likebutton" style="color: #ff006b; cursor: pointer"
-                   th:text="${postdto.userLikes > 0} ? 'favorite' : 'favorite_border'"></i>
-                <span id="totallikes" th:text="${postdto.likes}"></span>
-                <span id="mylikes" style="color: #ff006b"
-                      th:text="${postdto.userLikes > 0} ? ${'+' + postdto.userLikes} : ''"></span>
-            </div>
+            <div th:replace="postfragment :: likeButton(${postdto.likes}, ${postdto.userLikes}, ${postdto.post.id})"></div>
             <small class="text-muted"
                    th:text="${'Posted ' + prettyTime.format(postdto.post.timestamp) + ' ago by'}"></small>
             <a class="text-muted" th:href="@{/account/{postid}(postid = ${postdto.user.id})}"
@@ -41,33 +35,7 @@
         </div>
     </div>
 </div>
-<script sec:authorize="isAuthenticated()">
-    const postid = document.getElementsByTagName('meta')["postid"].content;
-    const token = document.getElementsByTagName('meta')["_csrf"].content;
-    let totalLikes = document.getElementById("totallikes");
-    let myLikes = document.getElementById("mylikes");
-    const likeButton = document.getElementById("likebutton");
-
-    function sendLike() {
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/like", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        xhr.send("_csrf=" + token +
-            '&postid=' + postid +
-            "&number=1");
-    }
-
-    function likePostOnce() {
-        sendLike();
-        totalLikes.textContent = parseInt(totalLikes.textContent, 10) + 1;
-        myLikes.textContent = myLikes.textContent !== "" ?
-            "+" + (parseInt(myLikes.textContent, 10) + 1) :
-            "+1";
-        likeButton.textContent = "favorite";
-    }
-
-    likeButton.addEventListener("click", likePostOnce, true)
-</script>
+<script th:replace="postfragment :: likescript"></script>
 <script type="text/javascript">
     const md = new remarkable.Remarkable();
     Array.from(document.getElementsByClassName("markdown")).forEach(field => {

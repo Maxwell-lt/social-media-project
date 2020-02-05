@@ -78,8 +78,10 @@ public class AccountController {
             Page<Post> posts = postService.getPostsByUser(user,
                     PageRequest.of(pageNumber - 1, pageSize, Sort.by("timestamp").descending()));
             Collection<Comment> comments = commentService.getCommentsByUser(user);
+
             Map<Integer, Integer> totalLikes = posts.stream()
                     .collect(Collectors.toMap(Post::getId, postlikesService::getLikes));
+
             Map<Integer, Integer> myLikes = currentUser.map(value -> posts.stream()
                     .collect(Collectors.toMap(Post::getId,
                             post -> postlikesService.getLikesByUser(post, value))))

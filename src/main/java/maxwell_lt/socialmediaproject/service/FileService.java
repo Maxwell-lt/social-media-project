@@ -28,7 +28,6 @@ public class FileService {
         String fileBaseName = UUID.randomUUID().toString();
         try {
             Image image = new Image(imageFile.getInputStream());
-            System.out.println(image.getExifTags());
             image.rotate();
             image.saveAs(new File(resourceRoot + File.separator +
                     fileBaseName + ".png"));
