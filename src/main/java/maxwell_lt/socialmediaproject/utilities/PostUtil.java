@@ -28,7 +28,6 @@ public class PostUtil {
         postEntity.setUser(user);
 
         postEntity.setTimestamp(Timestamp.from(Instant.now()));
-        postEntity.setDeleted(false);
 
         if (!postForm.getImage().isEmpty()) {
             String imageId = fileService.createImageFileAndThumbnail(postForm.getImage());

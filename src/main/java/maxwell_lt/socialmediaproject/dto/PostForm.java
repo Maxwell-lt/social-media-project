@@ -22,7 +22,9 @@ public class PostForm {
     @Size(max = 65535)
     private String text;
 
-    public PostForm(@NotNull @NotEmpty @Size(min = 1, max = 100) String title, MultipartFile image, @NotNull @NotEmpty @Size(max = 65535) String text) {
+    public PostForm(@NotNull @NotEmpty @Size(min = 1, max = 100) String title,
+                    MultipartFile image,
+                    @NotNull @NotEmpty @Size(max = 65535) String text) {
         this.title = title;
         this.image = image;
         this.text = text;

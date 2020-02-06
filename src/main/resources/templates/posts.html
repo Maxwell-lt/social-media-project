@@ -1,6 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -11,7 +11,7 @@
     <script src="/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="/js/remarkable.min.js" type="text/javascript"></script>
     <title th:text="${postdto.post.title}"></title>
-    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:content="${_csrf.token}" th:name="_csrf"/>
     <meta th:content="${postdto.post.id}" th:name="postid"/>
 </head>
 <body>
@@ -32,6 +32,23 @@
             <a class="text-muted" th:href="@{/account/{postid}(postid = ${postdto.user.id})}"
                th:text="${postdto.user.username}"></a>
             <p class="markdown" th:text="${postdto.post.text}"></p>
+        </div>
+    </div>
+    <div class="row my-3" sec:authorize="isAuthenticated()">
+        <div class="col-md-6 mx-auto border rounded p-2">
+            <form enctype="multipart/form-data" id="commentForm" method="post"
+                  th:action="@{/newcomment}" th:object="${commentform}">
+                <input th:attr="name='postId'" th:value="${postdto.post.id}" type="hidden">
+                <div class="form-group">
+                    <textarea class="form-control" id="commentInput" placeholder="Add a comment..." rows="4"
+                              th:field="*{text}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="pictureInput">Upload a picture (optional)</label>
+                    <input class="form-control-file" id="pictureInput" th:field="*{image}" type="file"/>
+                </div>
+                <button class="btn btn-primary" type="submit">Add Comment</button>
+            </form>
         </div>
     </div>
 </div>
