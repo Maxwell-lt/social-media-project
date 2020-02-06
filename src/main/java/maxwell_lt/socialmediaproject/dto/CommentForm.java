@@ -13,18 +13,18 @@ public class CommentForm {
 
     @NotNull
     @NotEmpty
-    @Size(max = 5000)
-    private String text;
-
-    @NotNull
-    @NotEmpty
     @PostExist
     private int postId;
 
+    @NotNull
+    @NotEmpty
+    @Size(max = 5000)
+    private String text;
+
     private MultipartFile image;
 
-    public CommentForm(@NotNull @NotEmpty @Size(max = 5000) String text,
-                       @NotNull @NotEmpty int postId,
+    public CommentForm(@NotNull @NotEmpty int postId,
+                       @NotNull @NotEmpty @Size(max = 5000) String text,
                        MultipartFile image) {
         this.text = text;
         this.postId = postId;

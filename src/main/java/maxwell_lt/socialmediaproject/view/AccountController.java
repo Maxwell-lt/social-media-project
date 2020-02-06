@@ -61,7 +61,7 @@ public class AccountController {
 
     @GetMapping("/account")
     public ModelAndView myAccountInfo(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
-                                      @RequestParam(value = "size", defaultValue = "20") int pageSize) {
+                                      @RequestParam(value = "size", defaultValue = "10") int pageSize) {
         Optional<User> currentUser = userUtil.getCurrentUser();
         return currentUser
                 .map(user -> getModelFromUserId(user.getId(), Optional.of(user), pageNumber, pageSize))

@@ -42,7 +42,7 @@ public class IndexController {
 
     @GetMapping({"/"})
     public ModelAndView index(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
-                              @RequestParam(value = "size", defaultValue = "20") int pageSize) {
+                              @RequestParam(value = "size", defaultValue = "10") int pageSize) {
         ModelAndView mav = new ModelAndView("index");
         Page<Post> posts = postService.getPostsAsPage(PageRequest.of(pageNumber - 1, pageSize, Sort.by("timestamp").descending()));
         Map<Integer, Integer> totalLikes = posts.stream()

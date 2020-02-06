@@ -37,20 +37,21 @@
     <div class="row my-3" sec:authorize="isAuthenticated()">
         <div class="col-md-6 mx-auto border rounded p-2">
             <form enctype="multipart/form-data" id="commentForm" method="post"
-                  th:action="@{/newcomment}" th:object="${commentform}">
-                <input th:attr="name='postId'" th:value="${postdto.post.id}" type="hidden">
+                  th:action="@{/newcomment}">
+                <input name="postId" th:value="${postdto.post.id}" type="hidden">
                 <div class="form-group">
-                    <textarea class="form-control" id="commentInput" placeholder="Add a comment..." rows="4"
-                              th:field="*{text}"></textarea>
+                    <textarea class="form-control" id="commentInput" name="text" placeholder="Add a comment..."
+                              rows="4"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="pictureInput">Upload a picture (optional)</label>
-                    <input class="form-control-file" id="pictureInput" th:field="*{image}" type="file"/>
+                    <input class="form-control-file" id="pictureInput" name="image" type="file"/>
                 </div>
                 <button class="btn btn-primary" type="submit">Add Comment</button>
             </form>
         </div>
     </div>
+    <div th:replace="postfragment :: comments(${comments}, ${prettyTime})"></div>
 </div>
 <script th:replace="postfragment :: likescript"></script>
 <script type="text/javascript">

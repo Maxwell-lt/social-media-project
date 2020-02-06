@@ -22,6 +22,20 @@
         <p class="markdown" th:text="${#strings.abbreviate(post.text, 140)}"></p>
     </div>
 </div>
+<div class="row border rounded bg-light my-1 mx-auto" th:each="comment: ${comments.getContent()}"
+     th:fragment="comments(comments, prettyTime)">
+    <div class="col-3">
+        <img class="img-fluid p-1 rounded" th:if="${comment.imageId != null}"
+             th:src="@{/image(id=${comment.imageId} + '_thumb')}"/>
+    </div>
+    <div class="col-9">
+        <p class="markdown" th:text="${#strings.abbreviate(comment.text, 140)}"></p>
+        <small class="text-muted" th:text="${'Posted ' + prettyTime.format(comment.timestamp) + ' ago by'}"
+               th:title="${#temporals.formatISO(comment.timestamp.toInstant())}"></small>
+        <a class="text-muted" th:href="@{/account/{postid}(postid = ${comment.user.id})}"
+           th:text="${comment.user.username}"></a>
+    </div>
+</div>
 <div class="row" th:fragment="pageNavigation(posts, pagenumbers)">
     <nav aria-label="Page navigation" class="mx-auto">
         <ul class="pagination" th:if="${posts.totalPages > 0}">
