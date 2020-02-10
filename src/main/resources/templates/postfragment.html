@@ -53,6 +53,28 @@
     <span class="my-likes" style="color: #ff006b"
           th:text="${userLikes > 0} ? ${'+' + userLikes} : ''"></span>
 </div>
+<div aria-labelledby="purchaseModalTitle" class="modal fade" data-toggle="modal" id="purchaseModal" role="dialog"
+     tabindex="-1" th:fragment="purchaselikesmodal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="purchaseModalTitle">You're out of likes!</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You've run out of likes! Buy more to continue liking posts.</p>
+            </div>
+            <div class="modal-footer">
+                <form th:action="@{/purchase}">
+                    <button class="btn btn-primary" type="submit">Purchase more likes</button>
+                </form>
+                <button class="btn btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script sec:authorize="isAuthenticated()" th:fragment="likescript">
     const token = document.getElementsByTagName('meta')["_csrf"].content;
     let posts = Array.from(document.getElementsByClassName("like-unit"));
@@ -65,11 +87,27 @@
 
         function sendLike() {
             let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    let response = JSON.parse(this.responseText);
+                    if (!response.success) {
+                        setLikeDisplay(response.userLikes, response.totalLikes);
+                        setListeners(getOutOfLikesListener);
+                        showPurchaseModal();
+                    }
+                }
+            };
             xhr.open("POST", "/like", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             xhr.send("_csrf=" + token +
                 '&postid=' + postId +
                 "&number=1");
+        }
+
+        function setLikeDisplay(user, total) {
+            totalLikes.textContent = total;
+            myLikes.textContent = user > 0 ? "+" + user : "";
+            likeButton.textContent = user > 0 ? "favorite" : "favorite_border"
         }
 
         return function () {
@@ -82,7 +120,22 @@
         }
     }
 
-    posts.forEach(post => post.querySelector(".like-button").onclick = getListener(post));
+    function getOutOfLikesListener(likeUnit) {
+        const likeButton = likeUnit.querySelector(".like-button");
+        return function () {
+            showPurchaseModal();
+        }
+    }
+
+    function setListeners(listener) {
+        posts.forEach(post => post.querySelector(".like-button").onclick = listener(post));
+    }
+
+    function showPurchaseModal() {
+        document.getElementById("purchaseModal").modal();
+    }
+
+    setListeners(getListener);
 </script>
 </body>
 </html>

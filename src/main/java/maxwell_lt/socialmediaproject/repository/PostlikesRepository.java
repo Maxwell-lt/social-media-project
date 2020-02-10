@@ -17,5 +17,10 @@ public interface PostlikesRepository extends JpaRepository<Postlikes, PostlikesP
     @Query("select sum(pl.likesUsed) from Postlikes pl where pl.post = :post")
     Optional<Integer> findTotalLikesByPost(@Param("post") Post post);
 
+    @Query("select sum(pl.likesUsed) from Postlikes pl where pl.postId = :postId")
+    Optional<Integer> findTotalLikesByPostId(int postId);
+
     Optional<Postlikes> findByPostAndUser(Post post, User user);
+
+    Optional<Postlikes> findByPostIdAndUser(int postId, User user);
 }

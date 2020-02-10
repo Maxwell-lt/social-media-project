@@ -33,18 +33,27 @@ public class PostlikesService {
         return postlikesRepository.findTotalLikesByPost(post).orElse(0);
     }
 
+    public int getLikes(int postId) {
+        return postlikesRepository.findTotalLikesByPostId(postId).orElse(0);
+    }
+
     public int getLikesByUser(Post post, User user) {
         return postlikesRepository.findByPostAndUser(post, user)
                 .map(Postlikes::getLikesUsed).orElse(0);
     }
 
+    public int getLikesByUser(int postId, User user) {
+        return postlikesRepository.findByPostIdAndUser(postId, user)
+                .map(Postlikes::getLikesUsed).orElse(0);
+    }
+
     @Transactional
-    public void likePost(int userId, int postId, int numberOfLikes) {
+    public boolean likePost(int userId, int postId, int numberOfLikes) {
         User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
 
         if (user.getCurrentLikes().intValue() < numberOfLikes) {
-            return;
+            return false;
         }
 
         PostlikesPK key = new PostlikesPK(userId, postId);
@@ -64,5 +73,6 @@ public class PostlikesService {
                 .getCurrentLikes()
                 .add(new BigDecimal(numberOfLikes)
                         .divide(new BigDecimal(100), 2, RoundingMode.UNNECESSARY)));
+        return true;
     }
 }
