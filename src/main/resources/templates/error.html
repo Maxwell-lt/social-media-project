@@ -12,10 +12,9 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="container-fluid">
-    <div class="jumbotron">
+    <div class="jumbotron bg-danger">
         <h1>Something went wrong.</h1>
-        <h2>Error code <span th:text="${errorcode}"></span></h2>
-        <h3 th:text="${errormsg}"></h3>
+        <h2>Error code <span th:text="${errorcode}"></span>: <span th:text="${errormsg}"></span></h2>
     </div>
 </div>
 </body>
