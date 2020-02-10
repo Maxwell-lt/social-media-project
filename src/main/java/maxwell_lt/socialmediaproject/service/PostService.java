@@ -41,6 +41,13 @@ public class PostService {
 
     public Page<Post> getPostsAsPage(PageRequest page) {
         return postRepository.findAll(page);
+    }
 
+    public Page<Post> getPostsAsPageByPopularity(PageRequest page) {
+        return postRepository.findAllOrderByPopularity(page);
+    }
+
+    public Page<Post> getPostsAsPageByUserByPopularity(User user, PageRequest page) {
+        return postRepository.findAllByUserOrderByPopularity(user, page);
     }
 }

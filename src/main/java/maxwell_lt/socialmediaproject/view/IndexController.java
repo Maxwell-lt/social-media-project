@@ -9,7 +9,6 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,7 +43,7 @@ public class IndexController {
     public ModelAndView index(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
                               @RequestParam(value = "size", defaultValue = "10") int pageSize) {
         ModelAndView mav = new ModelAndView("index");
-        Page<Post> posts = postService.getPostsAsPage(PageRequest.of(pageNumber - 1, pageSize, Sort.by("timestamp").descending()));
+        Page<Post> posts = postService.getPostsAsPageByPopularity(PageRequest.of(pageNumber - 1, pageSize));
         Map<Integer, Integer> totalLikes = posts.stream()
                 .collect(Collectors.toMap(Post::getId, postlikesService::getLikes));
         Optional<User> currentUser = userUtil.getCurrentUser();

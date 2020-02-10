@@ -12,7 +12,6 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -75,8 +74,8 @@ public class AccountController {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 
-            Page<Post> posts = postService.getPostsByUser(user,
-                    PageRequest.of(pageNumber - 1, pageSize, Sort.by("timestamp").descending()));
+            Page<Post> posts = postService.getPostsAsPageByUserByPopularity(user,
+                    PageRequest.of(pageNumber - 1, pageSize));
             Collection<Comment> comments = commentService.getCommentsByUser(user);
 
             Map<Integer, Integer> totalLikes = posts.stream()
