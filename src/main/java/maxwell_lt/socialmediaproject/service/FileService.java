@@ -1,26 +1,27 @@
 package maxwell_lt.socialmediaproject.service;
 
 import javaxt.io.Image;
-import org.springframework.beans.factory.annotation.Value;
+import maxwell_lt.socialmediaproject.repository.FileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.UUID;
 
 @Service
 public class FileService {
-    private final String resourceRoot;
 
+    private static final String EXTENSION = ".png";
+    private FileRepository fileRepository;
 
-    public FileService(@Value("${maxwell_lt.socialmediaproject.resourceroot}") String resourceRoot) {
-        this.resourceRoot = resourceRoot;
+    @Autowired
+    public FileService(FileRepository fileRepository) {
+        this.fileRepository = fileRepository;
     }
 
     public byte[] getBytesFromFilename(String filename) throws IOException {
-        return Files.readAllBytes(new File(resourceRoot + File.separator + filename).toPath());
+        return fileRepository.getFile(filename);
     }
 
 
@@ -29,11 +30,9 @@ public class FileService {
         try {
             Image image = new Image(imageFile.getInputStream());
             image.rotate();
-            image.saveAs(new File(resourceRoot + File.separator +
-                    fileBaseName + ".png"));
+            fileRepository.saveFile(image.getByteArray(), fileBaseName + EXTENSION);
             image.setHeight(128);
-            image.saveAs(new File(resourceRoot + File.separator +
-                    fileBaseName + "_thumb.png"));
+            fileRepository.saveFile(image.getByteArray(), fileBaseName + "_thumb" + EXTENSION);
         } catch (IOException e) {
             e.printStackTrace();
         }
