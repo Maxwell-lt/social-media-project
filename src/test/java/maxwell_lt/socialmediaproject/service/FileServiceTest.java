@@ -12,7 +12,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,7 +34,7 @@ class FileServiceTest {
     @BeforeEach
     void setUp() throws IOException {
         BufferedImage bi = new BufferedImage(2048, 1024, BufferedImage.TYPE_INT_RGB);
-        Graphics g = bi.createGraphics();
+        Graphics2D g = bi.createGraphics();
         g.drawOval(10, 10, 1014, 1014);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bi, "png", baos);
@@ -56,7 +56,7 @@ class FileServiceTest {
         byte[] byteImage = fileService.getBytesFromFilename("testfile.png");
         assertThat(byteImage)
                 .isNotEmpty();
-        javaxt.io.Image image = new javaxt.io.Image(byteImage);
+        Image image = new Image(byteImage);
         assertThat(image)
                 .matches(i -> i.getHeight() == 1024)
                 .matches(i -> i.getWidth() == 2048);
@@ -74,21 +74,21 @@ class FileServiceTest {
         String uuid = fileService.createImageFileAndThumbnail(multipartFile);
 
         assertThat(uuid)
-                .matches("[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}");
+                .matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
 
         verify(fileRepository, times(1))
                 .saveFile(argThat(bytes -> {
                             final Image image = new Image(bytes);
                             return image.getHeight() == 1024 && image.getWidth() == 2048;
                         }),
-                        matches("[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}\\.png"));
+                        matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\.png"));
 
         verify(fileRepository, times(1))
                 .saveFile(argThat(bytes -> {
                             final Image image = new Image(bytes);
                             return image.getHeight() == 128 && image.getWidth() == 256;
                         }),
-                        matches("[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}_thumb\\.png"));
+                        matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}_thumb\\.png"));
     }
 
     @Test

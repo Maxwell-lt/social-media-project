@@ -140,4 +140,92 @@ class PostlikesServiceTest {
         verify(postlikesRepository, times(1))
                 .save(argThat(argument -> argument.getLikesUsed() == 15));
     }
+
+    @Test
+    void givenPostDoesNotHaveLikesByUser_WhenLikesAreRetrieved_ThenGetZero() {
+        postlikes.setLikesUsed(35);
+        when(postlikesRepository.findByPostIdAndUser(post.getId(), poster))
+                .thenReturn(Optional.of(postlikes));
+        when(postlikesRepository.findByPostAndUser(post, liker))
+                .thenReturn(Optional.empty());
+
+        assertThat(postlikesService.getLikesByUser(post, liker))
+                .isEqualTo(0);
+    }
+
+    @Test
+    void givenPostHasLikesByUser_WhenUserLikesAreRetrievedByPost_ThenGetCorrectValue() {
+        // Poster's likes
+        postlikes.setLikesUsed(35);
+        when(postlikesRepository.findByPostAndUser(post, poster))
+                .thenReturn(Optional.of(postlikes));
+
+        Postlikes usersPostlikes = new Postlikes();
+        usersPostlikes.setPost(post);
+        usersPostlikes.setUser(liker);
+        usersPostlikes.setLikesUsed(25);
+        when(postlikesRepository.findByPostAndUser(post, liker))
+                .thenReturn(Optional.of(usersPostlikes));
+
+        assertThat(postlikesService.getLikesByUser(post, liker))
+                .isEqualTo(25);
+        verify(postlikesRepository, times(1))
+                .findByPostAndUser(post, liker);
+    }
+
+    @Test
+    void givenPostHasLikesByUser_WhenUserLikesAreRetrievedByPostId_ThenGetCorrectValue() {
+        // Poster's likes
+        postlikes.setLikesUsed(35);
+        when(postlikesRepository.findByPostIdAndUser(post.getId(), poster))
+                .thenReturn(Optional.of(postlikes));
+
+        Postlikes usersPostlikes = new Postlikes();
+        usersPostlikes.setPost(post);
+        usersPostlikes.setUser(liker);
+        usersPostlikes.setLikesUsed(25);
+        when(postlikesRepository.findByPostIdAndUser(post.getId(), liker))
+                .thenReturn(Optional.of(usersPostlikes));
+
+        assertThat(postlikesService.getLikesByUser(post.getId(), liker))
+                .isEqualTo(25);
+        verify(postlikesRepository, times(1))
+                .findByPostIdAndUser(post.getId(), liker);
+    }
+
+    @Test
+    void givenPostDoesNotHaveLikes_WhenTotalLikesAreRetrievedByPost_ThenGetZero() {
+        when(postlikesRepository.findTotalLikesByPost(post))
+                .thenReturn(Optional.empty());
+
+        assertThat(postlikesService.getLikes(post))
+                .isEqualTo(0);
+
+        verify(postlikesRepository, times(1))
+                .findTotalLikesByPost(post);
+    }
+
+    @Test
+    void givenPostHasLikes_WhenTotalLikesAreRetrievedByPost_ThenGetCorrectValue() {
+        when(postlikesRepository.findTotalLikesByPost(post))
+                .thenReturn(Optional.of(52));
+
+        assertThat(postlikesService.getLikes(post))
+                .isEqualTo(52);
+
+        verify(postlikesRepository, times(1))
+                .findTotalLikesByPost(post);
+    }
+
+    @Test
+    void givenPostHasLikes_WhenTotalLikesAreRetrievedByPostId_ThenGetCorrectValue() {
+        when(postlikesRepository.findTotalLikesByPostId(post.getId()))
+                .thenReturn(Optional.of(23));
+
+        assertThat(postlikesService.getLikes(post.getId()))
+                .isEqualTo(23);
+
+        verify(postlikesRepository, times(1))
+                .findTotalLikesByPostId(post.getId());
+    }
 }
