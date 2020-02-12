@@ -25,17 +25,13 @@ public class FileService {
     }
 
 
-    public String createImageFileAndThumbnail(MultipartFile imageFile) {
+    public String createImageFileAndThumbnail(MultipartFile imageFile) throws IOException {
         String fileBaseName = UUID.randomUUID().toString();
-        try {
-            Image image = new Image(imageFile.getInputStream());
-            image.rotate();
-            fileRepository.saveFile(image.getByteArray(), fileBaseName + EXTENSION);
-            image.setHeight(128);
-            fileRepository.saveFile(image.getByteArray(), fileBaseName + "_thumb" + EXTENSION);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image image = new Image(imageFile.getInputStream());
+        image.rotate();
+        fileRepository.saveFile(image.getByteArray(), fileBaseName + EXTENSION);
+        image.setHeight(128);
+        fileRepository.saveFile(image.getByteArray(), fileBaseName + "_thumb" + EXTENSION);
         return fileBaseName;
     }
 }
