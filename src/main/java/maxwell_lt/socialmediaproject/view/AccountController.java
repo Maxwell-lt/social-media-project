@@ -55,18 +55,28 @@ public class AccountController {
     @GetMapping("/account/{user}")
     public ModelAndView accountInfo(@PathVariable(value = "user") int userId,
                                     @RequestParam(value = "page", defaultValue = "1") int pageNumber,
-                                    @RequestParam(value = "size", defaultValue = "20") int pageSize) {
+                                    @RequestParam(value = "size", defaultValue = "10") int pageSize,
+                                    @RequestParam(value = "show", defaultValue = "posts") String show,
+                                    @RequestParam(value = "sort", defaultValue = "popular") String sort) {
         Optional<User> currentUser = userUtil.getCurrentUser();
-        return getModelFromUserId(userId, currentUser, pageNumber, pageSize);
+        ModelAndView mav = getModelFromUserId(userId, currentUser, pageNumber, pageSize);
+        mav.addObject("show", show);
+        mav.addObject("sort", sort);
+        return mav;
     }
 
     @GetMapping("/account")
     public ModelAndView myAccountInfo(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
-                                      @RequestParam(value = "size", defaultValue = "10") int pageSize) {
+                                      @RequestParam(value = "size", defaultValue = "10") int pageSize,
+                                      @RequestParam(value = "show", defaultValue = "posts") String show,
+                                      @RequestParam(value = "sort", defaultValue = "popular") String sort) {
         Optional<User> currentUser = userUtil.getCurrentUser();
-        return currentUser
+        ModelAndView mav = currentUser
                 .map(user -> getModelFromUserId(user.getId(), Optional.of(user), pageNumber, pageSize))
-                .orElseGet(() -> new ModelAndView("account"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist"));
+        mav.addObject("show", show);
+        mav.addObject("sort", sort);
+        return mav;
     }
 
     private ModelAndView getModelFromUserId(int userId, Optional<User> currentUser, int pageNumber, int pageSize) {
@@ -99,7 +109,9 @@ public class AccountController {
 
         int totalPages = posts.getTotalPages();
         if (totalPages > 0) {
-            mav.addObject("pagenumbers", IntStream.rangeClosed(1, totalPages)
+            mav.addObject("pagenumbers", IntStream.rangeClosed(
+                    Integer.max(pageNumber - 3, 1),
+                    Integer.min(pageNumber + 3, totalPages))
                     .boxed()
                     .collect(Collectors.toList()));
         }

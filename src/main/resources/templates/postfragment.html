@@ -13,7 +13,7 @@
              th:src="@{/image(id=${post.imageId} + '_thumb')}"/>
     </div>
     <div class="col-9">
-        <a th:href="@{/post(post=${post.id})}"><h5 th:text="${post.title}"></h5></a>
+        <a th:href="@{/post/{id}(id=${post.id})}"><h5 th:text="${post.title}"></h5></a>
         <div th:replace=":: likeButton(${totalLikes.get(post.id)}, ${myLikes.get(post.id)}, ${post.id})"></div>
         <small class="text-muted" th:text="${'Posted ' + prettyTime.format(post.timestamp) + ' ago by'}"
                th:title="${#temporals.formatISO(post.timestamp.toInstant())}"></small>
@@ -39,10 +39,23 @@
 <div class="row" th:fragment="pageNavigation(posts, pagenumbers)">
     <nav aria-label="Page navigation" class="mx-auto">
         <ul class="pagination" th:if="${posts.totalPages > 0}">
+            <li class="page-item" th:classappend="${posts.number==0} ? disabled">
+                <a class="page-link" th:href="@{''(page=1, size=${posts.size})}">First</a>
+            </li>
+            <li class="page-item" th:classappend="${posts.number==0} ? disabled">
+                <a class="page-link" th:href="@{''(page=${posts.number}, size=${posts.size})}">Previous</a>
+            </li>
             <li class="page-item" th:classappend="${pageNumber==posts.number + 1} ? active"
                 th:each="pageNumber : ${pagenumbers}">
                 <a class="page-link" th:href="@{''(page=${pageNumber}, size=${posts.size})}"
-                   th:text="${pageNumber}"></a></li>
+                   th:text="${pageNumber}"></a>
+            </li>
+            <li class="page-item" th:classappend="${posts.number + 1==posts.totalPages} ? disabled">
+                <a class="page-link" th:href="@{''(page=${posts.number + 2}, size=${posts.size})}">Next</a>
+            </li>
+            <li class="page-item" th:classappend="${posts.number + 1==posts.totalPages} ? disabled">
+                <a class="page-link" th:href="@{''(page=${posts.totalPages}, size=${posts.size})}">Last</a>
+            </li>
         </ul>
     </nav>
 </div>

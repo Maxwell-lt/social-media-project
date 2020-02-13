@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,8 +45,8 @@ public class PostController {
         this.commentUtil = commentUtil;
     }
 
-    @GetMapping("/post")
-    public String getPost(@RequestParam(value = "post") int postId, Model model) {
+    @GetMapping("/post/{id}")
+    public String getPost(@PathVariable(value = "id") int postId, Model model) {
         Optional<Post> postOptional = postService.getPostById(postId);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<User> currentUser = Optional.empty();
@@ -71,7 +72,7 @@ public class PostController {
                                    @RequestParam(value = "image", required = false) MultipartFile image) {
         CommentForm commentForm = new CommentForm(postId, text, image);
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("redirect:/post?post=" + commentForm.getPostId());
+        mav.setViewName("redirect:/post/" + commentForm.getPostId());
 
         Optional<User> userOptional = userUtil.getCurrentUser();
         userOptional.ifPresent(user -> commentService.createComment(commentUtil.createCommentFromCommentFormAndUser(commentForm, user)));

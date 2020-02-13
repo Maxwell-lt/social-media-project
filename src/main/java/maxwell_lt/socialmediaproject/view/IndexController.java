@@ -57,7 +57,9 @@ public class IndexController {
         mav.addObject("mylikes", myLikes);
         int totalPages = posts.getTotalPages();
         if (totalPages > 0) {
-            mav.addObject("pagenumbers", IntStream.rangeClosed(1, totalPages)
+            mav.addObject("pagenumbers", IntStream.rangeClosed(
+                    Integer.max(pageNumber - 3, 1),
+                    Integer.min(pageNumber + 3, totalPages))
                     .boxed()
                     .collect(Collectors.toList()));
         }

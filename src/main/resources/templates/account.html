@@ -16,6 +16,29 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="container">
+    <h1 th:text="${user.username} + '\'s Account'"></h1>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${show.equalsIgnoreCase('posts')} ? active"
+               th:href="@{''(show='posts', sort=${sort})}">Posts</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${show.equalsIgnoreCase('comments')} ? active"
+               th:href="@{''(show='comments', sort=${sort})}">Comments</a>
+        </li>
+        <li class="nav-item ml-auto">
+            <a class="nav-link" th:classappend="${sort.equalsIgnoreCase('popular')} ? active"
+               th:href="@{''(sort='popular', show=${show})}">Popular</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${sort.equalsIgnoreCase('new')} ? active"
+               th:href="@{''(sort='new', show=${show})}">New</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${sort.equalsIgnoreCase('old')} ? active"
+               th:href="@{''(sort='old', show=${show})}">Old</a>
+        </li>
+    </ul>
     <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes}, ${prettyTime})"></div>
     <div th:replace="postfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>
 </div>
