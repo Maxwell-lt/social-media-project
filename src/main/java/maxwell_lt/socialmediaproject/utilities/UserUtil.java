@@ -3,6 +3,7 @@ package maxwell_lt.socialmediaproject.utilities;
 import maxwell_lt.socialmediaproject.dto.UserPrincipal;
 import maxwell_lt.socialmediaproject.dto.UserRegistrationForm;
 import maxwell_lt.socialmediaproject.entity.User;
+import maxwell_lt.socialmediaproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,10 +18,12 @@ import java.util.Optional;
 public class UserUtil {
 
     private PasswordEncoder passwordEncoder;
+    private UserService userService;
 
     @Autowired
-    public UserUtil(PasswordEncoder passwordEncoder) {
+    public UserUtil(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
     }
 
     public User createUserFromRegistrationForm(UserRegistrationForm userRegistrationForm) {
@@ -37,10 +40,10 @@ public class UserUtil {
 
     public Optional<User> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = null;
         if (principal instanceof UserPrincipal) {
-            currentUser = ((UserPrincipal) principal).getUser();
+            int userId = ((UserPrincipal) principal).getUser().getId();
+            return userService.getUserById(userId);
         }
-        return Optional.ofNullable(currentUser);
+        return Optional.empty();
     }
 }

@@ -10,16 +10,39 @@
     </button>
     <a class="navbar-brand" href="/">Home</a>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <div class="navbar-nav">
+        <div class="navbar-nav mr-auto">
             <a class="nav-item nav-link" href="/login" sec:authorize="isAnonymous()">Login</a>
             <a class="nav-item nav-link" href="/register" sec:authorize="isAnonymous()">Register</a>
             <a class="nav-item nav-link" href="/newpost" sec:authorize="isAuthenticated()">New Post</a>
+            <a class="nav-item nav-link" href="/purchase" sec:authorize="isAuthenticated()">Purchase Likes</a>
+        </div>
+        <div class="navbar-nav ml-auto">
+            <span class="nav-item nav-link" sec:authorize="isAuthenticated()">Current Likes:
+                <span id="likeDisplay">loading</span>
+            </span>
             <a class="nav-item nav-link" href="/account" sec:authorize="isAuthenticated()">Account</a>
             <form class="form-inline" method="post" sec:authorize="isAuthenticated()" th:action="@{/perform_logout}">
                 <button class="btn btn-success" type="submit">Logout</button>
             </form>
         </div>
     </div>
+    <script sec:authorize="isAuthenticated()" th:inline="javascript" type="text/javascript">
+        function reloadLikeDisplay() {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    let response = JSON.parse(this.responseText);
+                    console.log(this.responseText);
+                    console.log(response);
+                    document.getElementById("likeDisplay").innerText = response["likes"];
+                }
+            };
+            xhr.open("GET", "/info/likes", true);
+            xhr.send();
+        }
+
+        reloadLikeDisplay();
+    </script>
 </nav>
 </body>
 </html>

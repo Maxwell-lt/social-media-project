@@ -95,6 +95,7 @@
                         setListeners(getOutOfLikesListener);
                         showPurchaseModal();
                     }
+                    reloadLikeDisplay();
                 }
             };
             xhr.open("POST", "/like", true);
