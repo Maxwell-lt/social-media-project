@@ -12,10 +12,12 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
@@ -68,37 +70,38 @@ public class AccountController {
     }
 
     private ModelAndView getModelFromUserId(int userId, Optional<User> currentUser, int pageNumber, int pageSize) {
-        ModelAndView mav = new ModelAndView("account");
 
         Optional<User> userOptional = userService.getUserById(userId);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
+        if (!userOptional.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+        }
+        ModelAndView mav = new ModelAndView("account");
+        User user = userOptional.get();
 
-            Page<Post> posts = postService.getPostsAsPageByUserByPopularity(user,
-                    PageRequest.of(pageNumber - 1, pageSize));
-            Collection<Comment> comments = commentService.getCommentsByUser(user);
+        Page<Post> posts = postService.getPostsAsPageByUserByPopularity(user,
+                PageRequest.of(pageNumber - 1, pageSize));
+        Collection<Comment> comments = commentService.getCommentsByUser(user);
 
-            Map<Integer, Integer> totalLikes = posts.stream()
-                    .collect(Collectors.toMap(Post::getId, postlikesService::getLikes));
+        Map<Integer, Integer> totalLikes = posts.stream()
+                .collect(Collectors.toMap(Post::getId, postlikesService::getLikes));
 
-            Map<Integer, Integer> myLikes = currentUser.map(value -> posts.stream()
-                    .collect(Collectors.toMap(Post::getId,
-                            post -> postlikesService.getLikesByUser(post, value))))
-                    .orElseGet(HashMap::new);
+        Map<Integer, Integer> myLikes = currentUser.map(value -> posts.stream()
+                .collect(Collectors.toMap(Post::getId,
+                        post -> postlikesService.getLikesByUser(post, value))))
+                .orElseGet(HashMap::new);
 
-            mav.addObject("user", user);
-            mav.addObject("posts", posts);
-            mav.addObject("totallikes", totalLikes);
-            mav.addObject("mylikes", myLikes);
-            mav.addObject("comments", comments);
-            mav.addObject(prettyTime);
+        mav.addObject("user", user);
+        mav.addObject("posts", posts);
+        mav.addObject("totallikes", totalLikes);
+        mav.addObject("mylikes", myLikes);
+        mav.addObject("comments", comments);
+        mav.addObject(prettyTime);
 
-            int totalPages = posts.getTotalPages();
-            if (totalPages > 0) {
-                mav.addObject("pagenumbers", IntStream.rangeClosed(1, totalPages)
-                        .boxed()
-                        .collect(Collectors.toList()));
-            }
+        int totalPages = posts.getTotalPages();
+        if (totalPages > 0) {
+            mav.addObject("pagenumbers", IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList()));
         }
         return mav;
     }
