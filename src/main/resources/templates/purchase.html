@@ -1,0 +1,50 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <title>Purchase</title>
+
+    <style type="text/css">
+        .radio-label {
+            height: 128px;
+            width: 128px;
+            text-align: center;
+        }
+
+        .material-icons {
+            font-size: 32px;
+        }
+
+        input[type=radio] {
+            display: none;
+        }
+
+        input[type=radio]:checked + label {
+            border: 3px solid gold;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<div class="container">
+    <form class="row" id="purchaseForm" method="post" th:action="@{/purchase}" th:object="${packs}">
+        <div class="form-check form-check-inline col-md-2 col-12 my-2" th:each="pack : ${packs}">
+            <input name="size" th:id="'button-' + ${packStat.index}" th:value="${pack}" type="radio">
+            <label class="rounded radio-label bg-light" th:for="'button-' + ${packStat.index}">
+                <i class="material-icons" style="color: #FF006B" th:each="i: ${#numbers.sequence(0, packStat.index)}">favorite</i>
+            </label>
+        </div>
+        <div class="col-12 justify-content-center">
+            <button class="btn btn-warning" type="submit">Purchase</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
