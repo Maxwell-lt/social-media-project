@@ -46,7 +46,8 @@
         </ul>
     </nav>
 </div>
-<div class="like-unit" th:data-post-id="${postId}" th:fragment="likeButton(totalLikes, userLikes, postId)">
+<div class="like-unit" style="user-select: none" th:data-post-id="${postId}"
+     th:fragment="likeButton(totalLikes, userLikes, postId)">
     <i class="material-icons like-button" style="color: #ff006b; cursor: pointer"
        th:text="${userLikes > 0} ? 'favorite' : 'favorite_border'"></i>
     <span class="total-likes" th:text="${totalLikes}"></span>

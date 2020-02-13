@@ -3,14 +3,13 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet" type="text/css">
     <script src="/js/jquery.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="/js/getposts.js" type="text/javascript"></script>
-    <script src="/js/remarkable.min.js" type="text/javascript"></script>
     <meta th:content="${_csrf.token}" th:name="_csrf"/>
     <title th:text="${user.username} + '\'s Account'">Account</title>
 </head>
@@ -20,13 +19,6 @@
     <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes}, ${prettyTime})"></div>
     <div th:replace="postfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>
 </div>
-<script type="text/javascript">
-    const md = new remarkable.Remarkable();
-    Array.from(document.getElementsByClassName("markdown")).forEach(field => {
-        field.innerHTML = md.render(field.innerHTML);
-        field.innerHTML = field.textContent;
-    });
-</script>
 <div th:replace="postfragment :: purchaselikesmodal"></div>
 <script th:replace="postfragment :: likescript"></script>
 </body>
