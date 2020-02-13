@@ -23,7 +23,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             value = "SELECT * " +
                     "FROM post p1 " +
                     "ORDER BY ( " +
-                    "SELECT pl.likesUsed / (-TIME_TO_SEC(TIMEDIFF(p1.timestamp, CURRENT_TIMESTAMP()))/86400) " +
+                    "SELECT SUM(pl.likesUsed) / (-TIME_TO_SEC(TIMEDIFF(p1.timestamp, CURRENT_TIMESTAMP()))/86400) " +
                     "FROM post p2 " +
                     "JOIN postlikes pl ON p2.id = pl.post " +
                     "WHERE p1.id = p2.id " +
@@ -39,7 +39,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
                     "FROM post p1 " +
                     "WHERE p1.user = ?1 " +
                     "ORDER BY ( " +
-                    "SELECT pl.likesUsed / (-TIME_TO_SEC(TIMEDIFF(p1.timestamp, CURRENT_TIMESTAMP()))/86400) " +
+                    "SELECT SUM(pl.likesUsed) / (-TIME_TO_SEC(TIMEDIFF(p1.timestamp, CURRENT_TIMESTAMP()))/86400) " +
                     "FROM post p2 " +
                     "JOIN postlikes pl ON p2.id = pl.post " +
                     "WHERE p1.id = p2.id " +
