@@ -12,6 +12,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +60,8 @@ public class AccountController {
                                     @RequestParam(value = "show", defaultValue = "posts") String show,
                                     @RequestParam(value = "sort", defaultValue = "popular") String sort) {
         Optional<User> currentUser = userUtil.getCurrentUser();
-        ModelAndView mav = getModelFromUserId(userId, currentUser, pageNumber, pageSize);
+        Sort sortOrder = getSortFromParam(sort);
+        ModelAndView mav = getModelFromUserId(userId, currentUser, pageNumber, pageSize, sortOrder);
         mav.addObject("show", show);
         mav.addObject("sort", sort);
         return mav;
@@ -71,15 +73,29 @@ public class AccountController {
                                       @RequestParam(value = "show", defaultValue = "posts") String show,
                                       @RequestParam(value = "sort", defaultValue = "popular") String sort) {
         Optional<User> currentUser = userUtil.getCurrentUser();
+        Sort sortOrder = getSortFromParam(sort);
         ModelAndView mav = currentUser
-                .map(user -> getModelFromUserId(user.getId(), Optional.of(user), pageNumber, pageSize))
+                .map(user -> getModelFromUserId(user.getId(), Optional.of(user), pageNumber, pageSize, sortOrder))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist"));
         mav.addObject("show", show);
         mav.addObject("sort", sort);
         return mav;
     }
 
-    private ModelAndView getModelFromUserId(int userId, Optional<User> currentUser, int pageNumber, int pageSize) {
+    private Sort getSortFromParam(String sortParam) {
+        if (sortParam.equals("new")) {
+            return Sort.by("timestamp").descending();
+        }
+        if (sortParam.equals("old")) {
+            return Sort.by("timestamp").ascending();
+        }
+        if (sortParam.equals("popular")) {
+            return Sort.unsorted();
+        }
+        return Sort.unsorted();
+    }
+
+    private ModelAndView getModelFromUserId(int userId, Optional<User> currentUser, int pageNumber, int pageSize, Sort order) {
 
         Optional<User> userOptional = userService.getUserById(userId);
         if (!userOptional.isPresent()) {
@@ -88,8 +104,9 @@ public class AccountController {
         ModelAndView mav = new ModelAndView("account");
         User user = userOptional.get();
 
-        Page<Post> posts = postService.getPostsAsPageByUserByPopularity(user,
-                PageRequest.of(pageNumber - 1, pageSize));
+        Page<Post> posts = order.isUnsorted()
+                ? postService.getPostsAsPageByUserByPopularity(user, PageRequest.of(pageNumber - 1, pageSize))
+                : postService.getPostsByUser(user, PageRequest.of(pageNumber - 1, pageSize, order));
         Collection<Comment> comments = commentService.getCommentsByUser(user);
 
         Map<Integer, Integer> totalLikes = posts.stream()

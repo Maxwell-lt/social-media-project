@@ -45,7 +45,7 @@ public class NewPostController {
         if (principal instanceof UserPrincipal) {
             User user = ((UserPrincipal) principal).getUser();
             int postId = postService.createPost(postUtil.createPostFromPostFormAndUser(postForm, user));
-            return new ModelAndView("redirect:/post?post=" + postId);
+            return new ModelAndView("redirect:/post/" + postId);
         }
 
         return new ModelAndView("post");
