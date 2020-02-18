@@ -7,6 +7,7 @@ import maxwell_lt.socialmediaproject.service.CommentService;
 import maxwell_lt.socialmediaproject.service.PostService;
 import maxwell_lt.socialmediaproject.service.PostlikesService;
 import maxwell_lt.socialmediaproject.service.UserService;
+import maxwell_lt.socialmediaproject.utilities.PostUtil;
 import maxwell_lt.socialmediaproject.utilities.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,7 +57,7 @@ public class AccountController {
                                     @RequestParam(value = "show", defaultValue = "posts") String show,
                                     @RequestParam(value = "sort", defaultValue = "popular") String sort) {
         Optional<User> currentUser = userUtil.getCurrentUser();
-        Sort sortOrder = getSortFromParam(sort);
+        Sort sortOrder = PostUtil.getSortFromParam(sort);
         return getModelFromUserId(userId, currentUser, pageNumber, pageSize, sortOrder);
     }
 
@@ -68,19 +69,6 @@ public class AccountController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
         }
-    }
-
-    private Sort getSortFromParam(String sortParam) {
-        if (sortParam.equals("new")) {
-            return Sort.by("timestamp").descending();
-        }
-        if (sortParam.equals("old")) {
-            return Sort.by("timestamp").ascending();
-        }
-        if (sortParam.equals("popular")) {
-            return Sort.unsorted();
-        }
-        return Sort.unsorted();
     }
 
     private ModelAndView getModelFromUserId(int userId, Optional<User> currentUser, int pageNumber, int pageSize, Sort order) {

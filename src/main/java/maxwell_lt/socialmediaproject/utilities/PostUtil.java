@@ -7,6 +7,7 @@ import maxwell_lt.socialmediaproject.service.FileService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -45,5 +46,18 @@ public class PostUtil {
         }
 
         return postEntity;
+    }
+
+    public static Sort getSortFromParam(String sortParam) {
+        if (sortParam.equals("new")) {
+            return Sort.by("timestamp").descending();
+        }
+        if (sortParam.equals("old")) {
+            return Sort.by("timestamp").ascending();
+        }
+        if (sortParam.equals("popular")) {
+            return Sort.unsorted();
+        }
+        return Sort.unsorted();
     }
 }
