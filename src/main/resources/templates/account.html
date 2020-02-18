@@ -17,36 +17,7 @@
 <div th:replace="header :: header"></div>
 <div class="container">
     <h1 th:text="${user.username} + '\'s Account'"></h1>
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link"
-               th:classappend="${param.show == null} ? active : (${param.show != null && param.show[0].equalsIgnoreCase('posts')} ? active)"
-               th:href="@{${urlBuilder.replaceQueryParam('show', 'posts').build().toUriString()}}"
-               th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">Posts</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link"
-               th:classappend="${param.show != null && param.show[0].equalsIgnoreCase('comments')} ? active"
-               th:href="@{${urlBuilder.replaceQueryParam('show', 'comments').build().toUriString()}}"
-               th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">Comments</a>
-        </li>
-        <li class="nav-item ml-auto">
-            <a class="nav-link"
-               th:classappend="${param.sort == null} ? active : (${param.sort != null && param.sort[0].equalsIgnoreCase('popular')} ? active)"
-               th:href="@{${urlBuilder.replaceQueryParam('sort', 'popular').build().toUriString()}}"
-               th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">Popular</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:classappend="${param.sort != null && param.sort[0].equalsIgnoreCase('new')} ? active"
-               th:href="@{${urlBuilder.replaceQueryParam('sort', 'new').build().toUriString()}}"
-               th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">New</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:classappend="${param.sort != null && param.sort[0].equalsIgnoreCase('old')} ? active"
-               th:href="@{${urlBuilder.replaceQueryParam('sort', 'old').build().toUriString()}}"
-               th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">Old</a>
-        </li>
-    </ul>
+    <ul th:replace="navfragment :: displayOptions(true)"></ul>
     <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes})"></div>
     <div th:replace="navfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>
 </div>

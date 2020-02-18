@@ -16,6 +16,7 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="container">
+    <ul th:replace="navfragment :: displayOptions(false)"></ul>
     <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes})"></div>
     <div th:replace="navfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>
 </div>
