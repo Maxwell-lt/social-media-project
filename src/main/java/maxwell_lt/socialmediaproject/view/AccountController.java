@@ -8,7 +8,6 @@ import maxwell_lt.socialmediaproject.service.PostService;
 import maxwell_lt.socialmediaproject.service.PostlikesService;
 import maxwell_lt.socialmediaproject.service.UserService;
 import maxwell_lt.socialmediaproject.utilities.UserUtil;
-import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +34,6 @@ public class AccountController {
     private PostService postService;
     private CommentService commentService;
     private PostlikesService postlikesService;
-    private PrettyTime prettyTime;
     private UserUtil userUtil;
 
     @Autowired
@@ -43,13 +41,11 @@ public class AccountController {
                              PostService postService,
                              CommentService commentService,
                              PostlikesService postlikesService,
-                             PrettyTime prettyTime,
                              UserUtil userUtil) {
         this.userService = userService;
         this.postService = postService;
         this.commentService = commentService;
         this.postlikesService = postlikesService;
-        this.prettyTime = prettyTime;
         this.userUtil = userUtil;
     }
 
@@ -61,10 +57,7 @@ public class AccountController {
                                     @RequestParam(value = "sort", defaultValue = "popular") String sort) {
         Optional<User> currentUser = userUtil.getCurrentUser();
         Sort sortOrder = getSortFromParam(sort);
-        ModelAndView mav = getModelFromUserId(userId, currentUser, pageNumber, pageSize, sortOrder);
-        mav.addObject("show", show);
-        mav.addObject("sort", sort);
-        return mav;
+        return getModelFromUserId(userId, currentUser, pageNumber, pageSize, sortOrder);
     }
 
     @GetMapping("/account")
@@ -74,12 +67,9 @@ public class AccountController {
                                       @RequestParam(value = "sort", defaultValue = "popular") String sort) {
         Optional<User> currentUser = userUtil.getCurrentUser();
         Sort sortOrder = getSortFromParam(sort);
-        ModelAndView mav = currentUser
+        return currentUser
                 .map(user -> getModelFromUserId(user.getId(), Optional.of(user), pageNumber, pageSize, sortOrder))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist"));
-        mav.addObject("show", show);
-        mav.addObject("sort", sort);
-        return mav;
     }
 
     private Sort getSortFromParam(String sortParam) {
@@ -122,7 +112,6 @@ public class AccountController {
         mav.addObject("totallikes", totalLikes);
         mav.addObject("mylikes", myLikes);
         mav.addObject("comments", comments);
-        mav.addObject(prettyTime);
 
         int totalPages = posts.getTotalPages();
         if (totalPages > 0) {

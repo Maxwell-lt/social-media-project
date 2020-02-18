@@ -16,7 +16,7 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="container">
-    <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes}, ${prettyTime})"></div>
+    <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes})"></div>
     <div th:replace="postfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>
 </div>
 <div th:replace="postfragment :: purchaselikesmodal"></div>

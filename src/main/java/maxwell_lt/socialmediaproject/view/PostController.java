@@ -10,7 +10,6 @@ import maxwell_lt.socialmediaproject.service.PostService;
 import maxwell_lt.socialmediaproject.service.PostlikesService;
 import maxwell_lt.socialmediaproject.utilities.CommentUtil;
 import maxwell_lt.socialmediaproject.utilities.UserUtil;
-import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,16 +30,14 @@ public class PostController {
     private PostService postService;
     private PostlikesService postlikesService;
     private CommentService commentService;
-    private PrettyTime prettyTime;
     private UserUtil userUtil;
     private CommentUtil commentUtil;
 
     @Autowired
-    public PostController(PostService postService, PostlikesService postlikesService, CommentService commentService, PrettyTime prettyTime, UserUtil userUtil, CommentUtil commentUtil) {
+    public PostController(PostService postService, PostlikesService postlikesService, CommentService commentService, UserUtil userUtil, CommentUtil commentUtil) {
         this.postService = postService;
         this.postlikesService = postlikesService;
         this.commentService = commentService;
-        this.prettyTime = prettyTime;
         this.userUtil = userUtil;
         this.commentUtil = commentUtil;
     }
@@ -62,7 +59,6 @@ public class PostController {
         }
         model.addAttribute("comments", commentService.getCommentsByPost(postOptional.get(), PageRequest.of(0, 20)));
         currentUser.ifPresent(u -> model.addAttribute("currentuser", u));
-        model.addAttribute(prettyTime);
         return "posts";
     }
 

@@ -13,33 +13,36 @@
     <meta th:content="${_csrf.token}" th:name="_csrf"/>
     <title th:text="${user.username} + '\'s Account'">Account</title>
 </head>
-<body>
+<body th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
 <div th:replace="header :: header"></div>
 <div class="container">
     <h1 th:text="${user.username} + '\'s Account'"></h1>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link" th:classappend="${show.equalsIgnoreCase('posts')} ? active"
-               th:href="@{''(show='posts', sort=${sort})}">Posts</a>
+            <a class="nav-link"
+               th:classappend="${param.show == null} ? active : (${param.show != null && param.show[0].equalsIgnoreCase('posts')} ? active)"
+               th:href="@{${urlBuilder.replaceQueryParam('show', 'posts').build().toUriString()}}">Posts</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" th:classappend="${show.equalsIgnoreCase('comments')} ? active"
-               th:href="@{''(show='comments', sort=${sort})}">Comments</a>
+            <a class="nav-link"
+               th:classappend="${param.show != null && param.show[0].equalsIgnoreCase('comments')} ? active"
+               th:href="@{${urlBuilder.replaceQueryParam('show', 'comments').build().toUriString()}}">Comments</a>
         </li>
         <li class="nav-item ml-auto">
-            <a class="nav-link" th:classappend="${sort.equalsIgnoreCase('popular')} ? active"
-               th:href="@{''(sort='popular', show=${show})}">Popular</a>
+            <a class="nav-link"
+               th:classappend="${param.sort == null} ? active : (${param.sort != null && param.sort[0].equalsIgnoreCase('popular')} ? active)"
+               th:href="@{${urlBuilder.replaceQueryParam('sort', 'popular').build().toUriString()}}">Popular</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" th:classappend="${sort.equalsIgnoreCase('new')} ? active"
-               th:href="@{''(sort='new', show=${show})}">New</a>
+            <a class="nav-link" th:classappend="${param.sort != null && param.sort[0].equalsIgnoreCase('new')} ? active"
+               th:href="@{${urlBuilder.replaceQueryParam('sort', 'new').build().toUriString()}}">New</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" th:classappend="${sort.equalsIgnoreCase('old')} ? active"
-               th:href="@{''(sort='old', show=${show})}">Old</a>
+            <a class="nav-link" th:classappend="${param.sort != null && param.sort[0].equalsIgnoreCase('old')} ? active"
+               th:href="@{${urlBuilder.replaceQueryParam('sort', 'old').build().toUriString()}}">Old</a>
         </li>
     </ul>
-    <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes}, ${prettyTime})"></div>
+    <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes})"></div>
     <div th:replace="postfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>
 </div>
 <div th:replace="postfragment :: purchaselikesmodal"></div>

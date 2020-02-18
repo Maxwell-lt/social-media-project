@@ -5,7 +5,6 @@ import maxwell_lt.socialmediaproject.entity.User;
 import maxwell_lt.socialmediaproject.service.PostService;
 import maxwell_lt.socialmediaproject.service.PostlikesService;
 import maxwell_lt.socialmediaproject.utilities.UserUtil;
-import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,17 +23,14 @@ import java.util.stream.IntStream;
 public class IndexController {
 
     private PostService postService;
-    private PrettyTime prettyTime;
     private PostlikesService postlikesService;
     private UserUtil userUtil;
 
     @Autowired
     public IndexController(PostService postService,
-                           PrettyTime prettyTime,
                            PostlikesService postlikesService,
                            UserUtil userUtil) {
         this.postService = postService;
-        this.prettyTime = prettyTime;
         this.postlikesService = postlikesService;
         this.userUtil = userUtil;
     }
@@ -63,7 +59,6 @@ public class IndexController {
                     .boxed()
                     .collect(Collectors.toList()));
         }
-        mav.addObject(prettyTime);
         return mav;
     }
 }
