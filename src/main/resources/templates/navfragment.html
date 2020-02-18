@@ -1,0 +1,39 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="row" th:fragment="pageNavigation(posts, pagenumbers)"
+     th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+    <nav aria-label="Page navigation" class="mx-auto">
+        <ul class="pagination" th:if="${posts.totalPages > 1}">
+            <li class="page-item" th:if="${posts.number != 0}">
+                <a class="page-link"
+                   th:href="@{${urlBuilder.replaceQueryParam('page', 1).replaceQueryParam('size', posts.size).build().toUriString()}}">First</a>
+            </li>
+            <li class="page-item" th:if="${posts.number != 0}">
+                <a class="page-link"
+                   th:href="@{${urlBuilder.replaceQueryParam('page', posts.number).replaceQueryParam('size', posts.size).build().toUriString()}}">Previous</a>
+            </li>
+            <li class="page-item" th:classappend="${pageNumber == posts.number + 1} ? active"
+                th:each="pageNumber : ${pagenumbers}">
+                <a class="page-link"
+                   th:href="@{${urlBuilder.replaceQueryParam('page', pageNumber).replaceQueryParam('size', posts.size).build().toUriString()}}"
+                   th:text="${pageNumber}"></a>
+            </li>
+            <li class="page-item" th:if="${posts.number + 1 != posts.totalPages}">
+                <a class="page-link"
+                   th:href="@{${urlBuilder.replaceQueryParam('page', posts.number + 2).replaceQueryParam('size', posts.size).build().toUriString()}}">Next</a>
+            </li>
+            <li class="page-item" th:if="${posts.number + 1 != posts.totalPages}">
+                <a class="page-link"
+                   th:href="@{${urlBuilder.replaceQueryParam('page', posts.totalPages).replaceQueryParam('size', posts.size).build().toUriString()}}">Last</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

@@ -26,9 +26,10 @@
         </div>
         <div th:class="${postdto.post.imageId == null} ? 'col-md-12' : 'col-md-6'">
             <h5 th:text="${postdto.post.title}"></h5>
-            <div th:replace="postfragment :: likeButton(${postdto.likes}, ${postdto.userLikes}, ${postdto.post.id})"></div>
+            <div th:replace="likefragment :: likeButton(${postdto.likes}, ${postdto.userLikes}, ${postdto.post.id})"></div>
             <small class="text-muted"
-                   th:text="${'Posted ' + prettyTime.format(postdto.post.timestamp) + ' ago by'}"></small>
+                   th:text="${'Posted ' + prettyTime.format(postdto.post.timestamp) + ' ago by'}"
+                   th:with="prettyTime=${@prettyTime}"></small>
             <a class="text-muted" th:href="@{/account/{postid}(postid = ${postdto.user.id})}"
                th:text="${postdto.user.username}"></a>
             <p class="markdown" th:text="${postdto.post.text}"></p>
@@ -53,7 +54,7 @@
     </div>
     <div th:replace="postfragment :: comments(${comments})"></div>
 </div>
-<div th:replace="postfragment :: purchaselikesmodal"></div>
-<script th:replace="postfragment :: likescript"></script>
+<div th:replace="likefragment :: purchaselikesmodal"></div>
+<script th:replace="likefragment :: likescript"></script>
 </body>
 </html>

@@ -61,15 +61,13 @@ public class AccountController {
     }
 
     @GetMapping("/account")
-    public ModelAndView myAccountInfo(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
-                                      @RequestParam(value = "size", defaultValue = "10") int pageSize,
-                                      @RequestParam(value = "show", defaultValue = "posts") String show,
-                                      @RequestParam(value = "sort", defaultValue = "popular") String sort) {
+    public ModelAndView myAccountInfo() {
         Optional<User> currentUser = userUtil.getCurrentUser();
-        Sort sortOrder = getSortFromParam(sort);
-        return currentUser
-                .map(user -> getModelFromUserId(user.getId(), Optional.of(user), pageNumber, pageSize, sortOrder))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist"));
+        if (currentUser.isPresent()) {
+            return new ModelAndView("redirect:/account/" + currentUser.get().getId());
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+        }
     }
 
     private Sort getSortFromParam(String sortParam) {

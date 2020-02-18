@@ -17,9 +17,9 @@
 <div th:replace="header :: header"></div>
 <div class="container">
     <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes})"></div>
-    <div th:replace="postfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>
+    <div th:replace="navfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>
 </div>
-<div th:replace="postfragment :: purchaselikesmodal"></div>
-<script th:replace="postfragment :: likescript"></script>
+<div th:replace="likefragment :: purchaselikesmodal"></div>
+<script th:replace="likefragment :: likescript"></script>
 </body>
 </html>
