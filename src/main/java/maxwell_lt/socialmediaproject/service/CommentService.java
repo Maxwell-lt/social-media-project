@@ -37,4 +37,8 @@ public class CommentService {
     public void createComment(Comment comment) {
         commentRepository.save(comment);
     }
+
+    public Page<Post> getCommentsAsPageByUser(User user, Pageable pageable) {
+        return commentRepository.findAllByUser(user, pageable);
+    }
 }

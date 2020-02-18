@@ -36,13 +36,13 @@
     </nav>
 </div>
 <ul class="nav nav-tabs" th:fragment="displayOptions(includeType)">
-    <li class="nav-item" th:if="includeType==true">
+    <li class="nav-item" th:if="${includeType == true}">
         <a class="nav-link"
            th:classappend="${param.show == null} ? active : (${param.show != null && param.show[0].equalsIgnoreCase('posts')} ? active)"
            th:href="@{${urlBuilder.replaceQueryParam('show', 'posts').build().toUriString()}}"
            th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">Posts</a>
     </li>
-    <li class="nav-item" th:if="includeType==true">
+    <li class="nav-item" th:if="${includeType == true}">
         <a class="nav-link"
            th:classappend="${param.show != null && param.show[0].equalsIgnoreCase('comments')} ? active"
            th:href="@{${urlBuilder.replaceQueryParam('show', 'comments').build().toUriString()}}"
