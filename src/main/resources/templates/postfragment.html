@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-<div class="row border rounded bg-light my-3" th:each="post: ${posts.getContent()}"
+<div class="row border rounded bg-dark text-light my-3 post" th:each="post: ${posts.getContent()}"
      th:fragment="posts(posts, totalLikes, myLikes)">
     <div class="col-3">
         <img class="img-fluid p-1 rounded" th:alt="${post.title}" th:if="${post.imageId != null}"
@@ -23,7 +23,7 @@
         <p class="markdown" th:text="${#strings.abbreviate(post.text, 140)}"></p>
     </div>
 </div>
-<div class="row border rounded bg-light my-1 mx-auto" th:each="comment: ${comments.getContent()}"
+<div class="row border rounded bg-dark text-light my-1 mx-auto comment" th:each="comment: ${comments.getContent()}"
      th:fragment="comments(comments)">
     <div class="col-3">
         <img class="img-fluid p-1 rounded" th:if="${comment.imageId != null}"

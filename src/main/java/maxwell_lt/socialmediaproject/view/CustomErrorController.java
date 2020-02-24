@@ -7,36 +7,40 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static javax.servlet.RequestDispatcher.*;
+
 @Controller
 public class CustomErrorController implements ErrorController {
 
     @GetMapping("/error")
     public ModelAndView errorPage(HttpServletRequest httpRequest) {
         ModelAndView page = new ModelAndView("error");
-        int errorCode = (int) httpRequest.getAttribute("javax.servlet.error.status_code");
-        String msg = "";
+        int errorCode = (int) httpRequest.getAttribute(ERROR_STATUS_CODE);
+        String message = (String) httpRequest.getAttribute(ERROR_MESSAGE);
 
-        switch (errorCode) {
-            case 400:
-                msg = "Bad Request";
-                break;
-            case 401:
-                msg = "Unauthorized";
-                break;
-            case 403:
-                msg = "Forbidden";
-                break;
-            case 404:
-                msg = "Not Found";
-                break;
-            case 500:
-                msg = "Internal Server Error";
-                break;
-            default:
-                msg = "Something bad happened";
+        if (message.equals("")) {
+            switch (errorCode) {
+                case 400:
+                    message = "Bad Request";
+                    break;
+                case 401:
+                    message = "Unauthorized";
+                    break;
+                case 403:
+                    message = "Forbidden";
+                    break;
+                case 404:
+                    message = "Not Found";
+                    break;
+                case 500:
+                    message = "Internal Server Error";
+                    break;
+                default:
+                    message = "Something bad happened";
+            }
         }
         page.addObject("errorcode", errorCode);
-        page.addObject("errormsg", msg);
+        page.addObject("errormsg", message);
         return page;
     }
 

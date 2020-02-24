@@ -16,7 +16,7 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="container">
-    <h1 th:text="${user.username} + '\'s Account'"></h1>
+    <h1 class="text-light" th:text="${user.username} + '\'s Account'"></h1>
     <ul th:replace="navfragment :: displayOptions(true)"></ul>
     <div th:replace="postfragment :: posts(${posts}, ${totallikes}, ${mylikes})"></div>
     <div th:replace="navfragment :: pageNavigation(${posts}, ${pagenumbers})"></div>

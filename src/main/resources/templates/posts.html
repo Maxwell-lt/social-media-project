@@ -17,7 +17,7 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="container my-2">
-    <div class="row border rounded bg-light">
+    <div class="row border rounded bg-dark text-light post">
         <div class="col-md-6" th:if="${postdto.post.imageId != null}">
             <div>
                 <img class="img-fluid p-1 rounded" th:alt="${postdto.post.title}"
@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="row my-3" sec:authorize="isAuthenticated()">
-        <div class="col-md-6 mx-auto border rounded p-2">
+        <div class="col-md-6 mx-auto border rounded p-2 bg-dark text-light">
             <form enctype="multipart/form-data" id="commentForm" method="post"
                   th:action="@{/newcomment}">
                 <input name="postId" th:value="${postdto.post.id}" type="hidden">
