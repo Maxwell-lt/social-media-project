@@ -35,6 +35,7 @@
             <p class="markdown" th:text="${postdto.post.text}"></p>
         </div>
     </div>
+    <div th:replace="postfragment :: comments(${comments})"></div>
     <div class="row my-3" sec:authorize="isAuthenticated()">
         <div class="col-md-6 mx-auto border rounded p-2 bg-dark text-light">
             <form enctype="multipart/form-data" id="commentForm" method="post"
@@ -52,7 +53,6 @@
             </form>
         </div>
     </div>
-    <div th:replace="postfragment :: comments(${comments})"></div>
 </div>
 <div th:replace="likefragment :: purchaselikesmodal"></div>
 <script th:replace="likefragment :: likescript"></script>
