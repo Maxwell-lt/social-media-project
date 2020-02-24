@@ -37,7 +37,7 @@
     </div>
     <div th:replace="postfragment :: comments(${comments})"></div>
     <div class="row my-3" sec:authorize="isAuthenticated()">
-        <div class="col-md-6 mx-auto border rounded p-2 bg-dark text-light">
+        <div class="col-md-6 mx-auto rounded p-2 bg-dark text-light">
             <form enctype="multipart/form-data" id="commentForm" method="post"
                   th:action="@{/newcomment}">
                 <input name="postId" th:value="${postdto.post.id}" type="hidden">

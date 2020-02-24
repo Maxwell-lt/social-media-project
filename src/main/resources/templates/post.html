@@ -16,7 +16,7 @@
 <div th:replace="header :: header"></div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 mx-auto my-5">
+        <div class="col-md-6 mx-auto my-5 bg-dark text-light p-2 rounded">
             <form action="/newpost" enctype="multipart/form-data" id="postForm" method="post" th:action="@{/newpost}"
                   th:object="${postform}">
                 <div class="form-group">
