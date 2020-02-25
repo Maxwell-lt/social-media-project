@@ -1,18 +1,14 @@
 package maxwell_lt.socialmediaproject.view;
 
 import maxwell_lt.socialmediaproject.entity.User;
+import maxwell_lt.socialmediaproject.exception.AuthorityNotFoundException;
 import maxwell_lt.socialmediaproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @RestController
 public class AdminController {
@@ -24,31 +20,22 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping("/admin/allusers")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
     @PutMapping("/admin/setrole/{id}")
-    public @ResponseBody
-    boolean setRole(
+    public User setRole(
             @PathVariable("id") int userId,
             @RequestParam("role") String role) {
-        try {
-            if ("admin".equals(role)) {
-                userService.setAdminRole(userId, true);
-            } else if ("moderator".equals(role)) {
-                userService.setModeratorRole(userId, true);
-            }
-        } catch (RuntimeException e) {
-            return false;
+
+        if ("admin".equals(role)) {
+            return userService.setAdminRole(userId, true);
         }
-        return true;
+        if ("moderator".equals(role)) {
+            return userService.setModeratorRole(userId, true);
+        }
+        throw new AuthorityNotFoundException(role);
     }
 
-    @GetMapping("/admin/userdetails/{id}")
-    public User getUserDetails(@PathVariable("id") int userId) {
-        return userService.getUserById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist"));
+    @DeleteMapping("/admin/deleteuser/{id}")
+    public void deleteUser(@PathVariable("id") int userId) {
+        userService.deleteUser(userId);
     }
 }

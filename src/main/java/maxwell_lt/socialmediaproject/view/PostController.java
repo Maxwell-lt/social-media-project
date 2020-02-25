@@ -44,20 +44,17 @@ public class PostController {
 
     @GetMapping("/post/{id}")
     public String getPost(@PathVariable(value = "id") int postId, Model model) {
-        Optional<Post> postOptional = postService.getPostById(postId);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<User> currentUser = Optional.empty();
         if (principal instanceof UserPrincipal) {
             currentUser = Optional.of(((UserPrincipal) principal).getUser());
         }
-        if (postOptional.isPresent()) {
-            Post post = postOptional.get();
-            PostDto postDto = new PostDto(post, post.getUser(),
-                    postlikesService.getLikes(post),
-                    currentUser.map(u -> postlikesService.getLikesByUser(post, u)).orElse(0));
-            model.addAttribute("postdto", postDto);
-        }
-        model.addAttribute("comments", commentService.getCommentsByPost(postOptional.get(), PageRequest.of(0, 20)));
+            Post post = postService.getPostById(postId);
+        PostDto postDto = new PostDto(post, post.getUser(),
+                postlikesService.getLikes(post),
+                currentUser.map(u -> postlikesService.getLikesByUser(post, u)).orElse(0));
+        model.addAttribute("postdto", postDto);
+        model.addAttribute("comments", commentService.getCommentsByPost(post, PageRequest.of(0, 20)));
         currentUser.ifPresent(u -> model.addAttribute("currentuser", u));
         return "posts";
     }

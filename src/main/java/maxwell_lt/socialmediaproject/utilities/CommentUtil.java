@@ -32,7 +32,7 @@ public class CommentUtil {
         Comment commentEntity = new Comment();
 
         commentEntity.setText(commentForm.getText());
-        postService.getPostById(commentForm.getPostId()).ifPresent(commentEntity::setPost);
+        commentEntity.setPost(postService.getPostById(commentForm.getPostId()));
         commentEntity.setUser(user);
 
         commentEntity.setTimestamp(Timestamp.from(Instant.now()));

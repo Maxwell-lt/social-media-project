@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,5 +41,18 @@ public class CommentService {
 
     public Page<Post> getCommentsAsPageByUser(User user, Pageable pageable) {
         return commentRepository.findAllByUser(user, pageable);
+    }
+
+    public List<Comment> getAllComments() {
+        return commentRepository.findAll();
+    }
+
+    public List<Comment> getCommentsByPost(Post post) {
+        return commentRepository.findAllByPost(post);
+    }
+
+    @Transactional
+    public void deleteComment(int commentId) {
+        commentRepository.deleteCommentById(commentId);
     }
 }

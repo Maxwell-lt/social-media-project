@@ -4,6 +4,7 @@ import maxwell_lt.socialmediaproject.entity.Post;
 import maxwell_lt.socialmediaproject.entity.Postlikes;
 import maxwell_lt.socialmediaproject.entity.PostlikesPK;
 import maxwell_lt.socialmediaproject.entity.User;
+import maxwell_lt.socialmediaproject.exception.UserNotFoundException;
 import maxwell_lt.socialmediaproject.repository.PostRepository;
 import maxwell_lt.socialmediaproject.repository.PostlikesRepository;
 import maxwell_lt.socialmediaproject.repository.UserRepository;
@@ -49,8 +50,8 @@ public class PostlikesService {
 
     @Transactional
     public boolean likePost(int userId, int postId, int numberOfLikes) {
-        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
-        Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new UserNotFoundException(postId));
 
         if (user.getCurrentLikes().intValue() < numberOfLikes) {
             return false;

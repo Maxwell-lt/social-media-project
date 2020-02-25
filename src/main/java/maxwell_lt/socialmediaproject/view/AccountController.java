@@ -3,6 +3,7 @@ package maxwell_lt.socialmediaproject.view;
 import maxwell_lt.socialmediaproject.entity.Comment;
 import maxwell_lt.socialmediaproject.entity.Post;
 import maxwell_lt.socialmediaproject.entity.User;
+import maxwell_lt.socialmediaproject.exception.UserNotFoundException;
 import maxwell_lt.socialmediaproject.service.CommentService;
 import maxwell_lt.socialmediaproject.service.PostService;
 import maxwell_lt.socialmediaproject.service.PostlikesService;
@@ -13,12 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
@@ -67,7 +66,7 @@ public class AccountController {
         if (currentUser.isPresent()) {
             return new ModelAndView("redirect:/account/" + currentUser.get().getId());
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new UserNotFoundException();
         }
     }
 
@@ -75,7 +74,7 @@ public class AccountController {
 
         Optional<User> userOptional = userService.getUserById(userId);
         if (!userOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new UserNotFoundException();
         }
         ModelAndView mav = new ModelAndView("account");
         User user = userOptional.get();

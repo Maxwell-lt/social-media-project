@@ -1,6 +1,7 @@
 package maxwell_lt.socialmediaproject.service;
 
 import maxwell_lt.socialmediaproject.entity.User;
+import maxwell_lt.socialmediaproject.exception.UserNotFoundException;
 import maxwell_lt.socialmediaproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,29 +42,36 @@ public class UserService {
 
     @Transactional
     public void updateUsername(int id, String username) {
-        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         user.setUsername(username);
         userRepository.save(user);
     }
 
     @Transactional
     public void updateEmail(int id, String email) {
-        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         user.setEmail(email);
         userRepository.save(user);
     }
 
     @Transactional
-    public void setAdminRole(int id, boolean hasRole) {
-        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+    public User setAdminRole(int id, boolean hasRole) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         user.setHasAdminPermissions(hasRole);
         userRepository.save(user);
+        return user;
     }
 
     @Transactional
-    public void setModeratorRole(int id, boolean hasRole) {
-        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+    public User setModeratorRole(int id, boolean hasRole) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         user.setHasModeratorPermissions(hasRole);
         userRepository.save(user);
+        return user;
+    }
+
+    @Transactional
+    public void deleteUser(int userId) {
+        userRepository.deleteUserById(userId);
     }
 }

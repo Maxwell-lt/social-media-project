@@ -21,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/login", "/register", "/post", "/image").permitAll()
                 .antMatchers("/newpost", "/like", "/purchase").authenticated()
                 .antMatchers("/actuator/**", "/admin/**").hasAuthority("admin")
+                .antMatchers("/moderator/**").hasAuthority("moderator")
                 .and()
                 .formLogin()
                 .loginPage("/login")
