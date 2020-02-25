@@ -14,13 +14,13 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
-    List<Comment> findAllByUser(User user);
+    List<Comment> findAllByUserAndDeletedFalse(User user);
 
-    Page<Comment> findAllByPost(Post post, Pageable pageable);
+    Page<Comment> findAllByUserAndDeletedFalse(User user, Pageable pageable);
 
-    Page<Post> findAllByUser(User user, Pageable pageable);
+    Page<Comment> findAllByPostAndDeletedFalse(Post post, Pageable pageable);
 
-    List<Comment> findAllByPost(Post post);
+    List<Comment> findAllByPostAndDeletedFalse(Post post);
 
     @Modifying
     @Query("update Comment c set c.deleted = true where c.id = :commentId")

@@ -72,7 +72,7 @@ class UserServiceTest {
 
     @Test
     void givenUserExists_WhenFindUserByUsername_ThenGetUser() {
-        when(userRepository.findByUsername(user.getUsername()))
+        when(userRepository.findByUsernameAndDeletedFalse(user.getUsername()))
                 .thenReturn(Optional.of(user));
 
         assertThat(userService.getUserByUsername(user.getUsername()))
@@ -80,24 +80,24 @@ class UserServiceTest {
                 .containsSame(user);
 
         verify(userRepository, times(1))
-                .findByUsername(user.getUsername());
+                .findByUsernameAndDeletedFalse(user.getUsername());
     }
 
     @Test
     void givenUserDoesNotExist_WhenFindUserByUsername_ThenGetEmptyOptional() {
-        when(userRepository.findByUsername(anyString()))
+        when(userRepository.findByUsernameAndDeletedFalse(anyString()))
                 .thenReturn(Optional.empty());
 
         assertThat(userService.getUserByUsername("username"))
                 .isEmpty();
 
         verify(userRepository, times(1))
-                .findByUsername(anyString());
+                .findByUsernameAndDeletedFalse(anyString());
     }
 
     @Test
     void givenUserExists_WhenFindUserByEmail_ThenGetUser() {
-        when(userRepository.findByEmail(user.getEmail()))
+        when(userRepository.findByEmailAndDeletedFalse(user.getEmail()))
                 .thenReturn(Optional.of(user));
 
         assertThat(userService.getUserByEmail(user.getEmail()))
@@ -105,19 +105,19 @@ class UserServiceTest {
                 .containsSame(user);
 
         verify(userRepository, times(1))
-                .findByEmail(user.getEmail());
+                .findByEmailAndDeletedFalse(user.getEmail());
     }
 
     @Test
     void givenUserDoesNotExist_WhenFindUserByEmail_ThenGetEmptyOptional() {
-        when(userRepository.findByEmail(anyString()))
+        when(userRepository.findByEmailAndDeletedFalse(anyString()))
                 .thenReturn(Optional.empty());
 
         assertThat(userService.getUserByEmail("email"))
                 .isEmpty();
 
         verify(userRepository, times(1))
-                .findByEmail(anyString());
+                .findByEmailAndDeletedFalse(anyString());
     }
 
     @Test

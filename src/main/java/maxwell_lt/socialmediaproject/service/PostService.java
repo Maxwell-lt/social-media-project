@@ -35,11 +35,11 @@ public class PostService {
     }
 
     public Collection<Post> getPostsByUser(User user) {
-        return postRepository.findAllByUser(user);
+        return postRepository.findAllByUserAndDeletedFalse(user);
     }
 
     public Page<Post> getPostsByUser(User user, Pageable pageable) {
-        return postRepository.findByUser(user, pageable);
+        return postRepository.findByUserAndDeletedFalse(user, pageable);
     }
 
     public Page<Post> getPostsAsPage(PageRequest page) {

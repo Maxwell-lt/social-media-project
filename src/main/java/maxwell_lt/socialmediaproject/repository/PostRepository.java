@@ -13,16 +13,14 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
-    List<Post> findAllByUser(User user);
+    List<Post> findAllByUserAndDeletedFalse(User user);
 
-    Page<Post> findByUser(User user, Pageable pageable);
-
-    @Query("select p from Post p where p.user = :user order by p.timestamp")
-    Page<Post> findAllByUser(User user, Pageable pageable);
+    Page<Post> findByUserAndDeletedFalse(User user, Pageable pageable);
 
     @Query(
             value = "SELECT * " +
                     "FROM post p1 " +
+                    "WHERE p1.deleted = false " +
                     "ORDER BY ( " +
                     "SELECT SUM(pl.likesUsed) / (-TIME_TO_SEC(TIMEDIFF(p1.timestamp, CURRENT_TIMESTAMP()))/86400) " +
                     "FROM post p2 " +
@@ -39,6 +37,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             value = "SELECT * " +
                     "FROM post p1 " +
                     "WHERE p1.user = ?1 " +
+                    "AND p1.deleted = false " +
                     "ORDER BY ( " +
                     "SELECT SUM(pl.likesUsed) / (-TIME_TO_SEC(TIMEDIFF(p1.timestamp, CURRENT_TIMESTAMP()))/86400) " +
                     "FROM post p2 " +

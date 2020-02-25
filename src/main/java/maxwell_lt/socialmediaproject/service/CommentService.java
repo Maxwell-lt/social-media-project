@@ -28,19 +28,19 @@ public class CommentService {
     }
 
     public List<Comment> getCommentsByUser(User user) {
-        return commentRepository.findAllByUser(user);
+        return commentRepository.findAllByUserAndDeletedFalse(user);
     }
 
     public Page<Comment> getCommentsByPost(Post post, Pageable pageable) {
-        return commentRepository.findAllByPost(post, pageable);
+        return commentRepository.findAllByPostAndDeletedFalse(post, pageable);
     }
 
     public void createComment(Comment comment) {
         commentRepository.save(comment);
     }
 
-    public Page<Post> getCommentsAsPageByUser(User user, Pageable pageable) {
-        return commentRepository.findAllByUser(user, pageable);
+    public Page<Comment> getCommentsAsPageByUser(User user, Pageable pageable) {
+        return commentRepository.findAllByUserAndDeletedFalse(user, pageable);
     }
 
     public List<Comment> getAllComments() {
@@ -48,7 +48,7 @@ public class CommentService {
     }
 
     public List<Comment> getCommentsByPost(Post post) {
-        return commentRepository.findAllByPost(post);
+        return commentRepository.findAllByPostAndDeletedFalse(post);
     }
 
     @Transactional
