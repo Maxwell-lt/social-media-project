@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         UserDetails result;
-        Optional<User> user = userRepository.findByUsernameAndDeletedFalse(username);
+        Optional<User> user = userRepository.findByUsernameAndIsDeletedFalse(username);
         if (user.isPresent()) {
             result = new UserPrincipal(user.get());
         } else {

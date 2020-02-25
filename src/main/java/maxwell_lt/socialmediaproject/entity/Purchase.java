@@ -1,5 +1,7 @@
 package maxwell_lt.socialmediaproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +24,7 @@ public class Purchase implements Serializable {
     private BigDecimal pricePaid;
     private int likesBought;
     private Timestamp timestamp;
+    @JsonManagedReference
     private User user;
 
     @Id

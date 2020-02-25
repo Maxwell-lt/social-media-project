@@ -29,11 +29,11 @@ public class UserService {
     }
 
     public Optional<User> getUserByUsername(String username) {
-        return userRepository.findByUsernameAndDeletedFalse(username);
+        return userRepository.findByUsernameAndIsDeletedFalse(username);
     }
 
     public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmailAndDeletedFalse(email);
+        return userRepository.findByEmailAndIsDeletedFalse(email);
     }
 
     public List<User> getAllUsers() {

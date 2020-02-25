@@ -72,7 +72,7 @@ class UserServiceTest {
 
     @Test
     void givenUserExists_WhenFindUserByUsername_ThenGetUser() {
-        when(userRepository.findByUsernameAndDeletedFalse(user.getUsername()))
+        when(userRepository.findByUsernameAndIsDeletedFalse(user.getUsername()))
                 .thenReturn(Optional.of(user));
 
         assertThat(userService.getUserByUsername(user.getUsername()))
@@ -80,24 +80,24 @@ class UserServiceTest {
                 .containsSame(user);
 
         verify(userRepository, times(1))
-                .findByUsernameAndDeletedFalse(user.getUsername());
+                .findByUsernameAndIsDeletedFalse(user.getUsername());
     }
 
     @Test
     void givenUserDoesNotExist_WhenFindUserByUsername_ThenGetEmptyOptional() {
-        when(userRepository.findByUsernameAndDeletedFalse(anyString()))
+        when(userRepository.findByUsernameAndIsDeletedFalse(anyString()))
                 .thenReturn(Optional.empty());
 
         assertThat(userService.getUserByUsername("username"))
                 .isEmpty();
 
         verify(userRepository, times(1))
-                .findByUsernameAndDeletedFalse(anyString());
+                .findByUsernameAndIsDeletedFalse(anyString());
     }
 
     @Test
     void givenUserExists_WhenFindUserByEmail_ThenGetUser() {
-        when(userRepository.findByEmailAndDeletedFalse(user.getEmail()))
+        when(userRepository.findByEmailAndIsDeletedFalse(user.getEmail()))
                 .thenReturn(Optional.of(user));
 
         assertThat(userService.getUserByEmail(user.getEmail()))
@@ -105,19 +105,19 @@ class UserServiceTest {
                 .containsSame(user);
 
         verify(userRepository, times(1))
-                .findByEmailAndDeletedFalse(user.getEmail());
+                .findByEmailAndIsDeletedFalse(user.getEmail());
     }
 
     @Test
     void givenUserDoesNotExist_WhenFindUserByEmail_ThenGetEmptyOptional() {
-        when(userRepository.findByEmailAndDeletedFalse(anyString()))
+        when(userRepository.findByEmailAndIsDeletedFalse(anyString()))
                 .thenReturn(Optional.empty());
 
         assertThat(userService.getUserByEmail("email"))
                 .isEmpty();
 
         verify(userRepository, times(1))
-                .findByEmailAndDeletedFalse(anyString());
+                .findByEmailAndIsDeletedFalse(anyString());
     }
 
     @Test

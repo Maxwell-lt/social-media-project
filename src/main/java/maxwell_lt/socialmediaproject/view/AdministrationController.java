@@ -3,42 +3,50 @@ package maxwell_lt.socialmediaproject.view;
 import maxwell_lt.socialmediaproject.entity.Comment;
 import maxwell_lt.socialmediaproject.entity.Post;
 import maxwell_lt.socialmediaproject.entity.User;
+import maxwell_lt.socialmediaproject.exception.AuthorityNotFoundException;
 import maxwell_lt.socialmediaproject.exception.CommentNotFoundException;
 import maxwell_lt.socialmediaproject.exception.UserNotFoundException;
+import maxwell_lt.socialmediaproject.modelassembler.UserModelAssembler;
 import maxwell_lt.socialmediaproject.service.CommentService;
 import maxwell_lt.socialmediaproject.service.PostService;
 import maxwell_lt.socialmediaproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-public class ModeratorController {
+public class AdministrationController {
 
     private PostService postService;
     private UserService userService;
     private CommentService commentService;
+    private UserModelAssembler userModelAssembler;
 
     @Autowired
-    public ModeratorController(PostService postService, UserService userService, CommentService commentService) {
+    public AdministrationController(PostService postService, UserService userService, CommentService commentService, UserModelAssembler userModelAssembler) {
         this.postService = postService;
         this.userService = userService;
         this.commentService = commentService;
+        this.userModelAssembler = userModelAssembler;
     }
 
     @GetMapping("/moderator/allusers")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public CollectionModel<EntityModel<User>> getAllUsers() {
+        return userModelAssembler.toCollectionModel(userService.getAllUsers());
     }
 
     @GetMapping("/moderator/userdetails/{id}")
-    public User getUserDetails(@PathVariable("id") int userId) {
-        return userService.getUserById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
+    public EntityModel<User> getUserDetails(@PathVariable("id") int userId) {
+        return userModelAssembler.toModel(userService.getUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId)));
     }
 
     @GetMapping("/moderator/allposts")
@@ -81,5 +89,24 @@ public class ModeratorController {
     @DeleteMapping("/moderator/deletecomment/{id}")
     public void deleteComment(@PathVariable("id") int commentId) {
         commentService.deleteComment(commentId);
+    }
+
+    @PutMapping("/admin/setrole/{id}")
+    public User setRole(
+            @PathVariable("id") int userId,
+            @RequestParam("role") String role) {
+
+        if ("admin".equals(role)) {
+            return userService.setAdminRole(userId, true);
+        }
+        if ("moderator".equals(role)) {
+            return userService.setModeratorRole(userId, true);
+        }
+        throw new AuthorityNotFoundException(role);
+    }
+
+    @DeleteMapping("/admin/deleteuser/{id}")
+    public void deleteUser(@PathVariable("id") int userId) {
+        userService.deleteUser(userId);
     }
 }

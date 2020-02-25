@@ -35,9 +35,9 @@ class UserDetailsServiceImplTest {
         user.setUsername("username");
         user.setEmail("email@email.com");
         user.setPassword("$hashed$password$");
-        when(userRepository.findByUsernameAndDeletedFalse(user.getUsername()))
+        when(userRepository.findByUsernameAndIsDeletedFalse(user.getUsername()))
                 .thenReturn(Optional.of(user));
-        when(userRepository.findByUsernameAndDeletedFalse("notAUser"))
+        when(userRepository.findByUsernameAndIsDeletedFalse("notAUser"))
                 .thenReturn(Optional.empty());
     }
 
@@ -60,7 +60,7 @@ class UserDetailsServiceImplTest {
                 .isEqualTo(user);
 
         verify(userRepository, times(1))
-                .findByUsernameAndDeletedFalse(anyString());
+                .findByUsernameAndIsDeletedFalse(anyString());
     }
 
     @Test

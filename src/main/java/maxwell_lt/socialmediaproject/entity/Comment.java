@@ -1,5 +1,7 @@
 package maxwell_lt.socialmediaproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +24,9 @@ public class Comment implements Serializable {
     private String text;
     private Timestamp timestamp;
     private boolean deleted;
+    @JsonManagedReference
     private User user;
+    @JsonManagedReference
     private Post post;
 
     @Id

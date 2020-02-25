@@ -1,5 +1,8 @@
 package maxwell_lt.socialmediaproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +23,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = -4075652021712217438L;
     private int id;
     private String username;
+    @JsonIgnore
     private String password;
     private String email;
     private Timestamp creationDate;
@@ -28,9 +32,13 @@ public class User implements Serializable {
     private boolean hasAdminPermissions;
     private boolean hasModeratorPermissions;
     private boolean isDeleted;
+    @JsonBackReference
     private Collection<Comment> comments;
+    @JsonBackReference
     private Collection<Post> posts;
+    @JsonBackReference
     private Collection<Postlikes> postlikes;
+    @JsonBackReference
     private Collection<Purchase> purchases;
 
     public User() {
