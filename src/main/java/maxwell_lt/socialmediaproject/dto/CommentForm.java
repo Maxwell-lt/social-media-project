@@ -32,7 +32,8 @@ public class CommentForm {
     }
 
     public CommentForm() {
-
+        this.postId = -1;
+        this.text = "";
     }
 
     public String getText() {
