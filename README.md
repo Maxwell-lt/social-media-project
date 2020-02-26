@@ -2,4 +2,4 @@
 
 ![CI](https://github.com/Maxwell-lt/social-media-project/workflows/CI/badge.svg)
 
-Case study project for Per Scholas using Spring Boot
+Case study project for Per Scholas using Spring Boot, Bootstrap, JPA 
