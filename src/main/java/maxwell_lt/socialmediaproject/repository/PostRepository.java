@@ -17,6 +17,8 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     Page<Post> findByUserAndDeletedFalse(User user, Pageable pageable);
 
+    List<Post> findAllByUserIdAndDeletedFalse(int userId);
+
     @Query(
             value = "SELECT * " +
                     "FROM post p1 " +

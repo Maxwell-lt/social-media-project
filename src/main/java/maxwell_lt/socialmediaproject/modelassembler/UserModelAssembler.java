@@ -22,11 +22,12 @@ public class UserModelAssembler implements RepresentationModelAssembler<User, En
     }
 
     @Override
-    public CollectionModel<EntityModel<User>> toCollectionModel(Iterable<? extends User> entities) {
+    public CollectionModel<EntityModel<User>> toCollectionModel(Iterable<? extends User> users) {
         return new CollectionModel<>(
-                StreamSupport.stream(entities.spliterator(), false)
+                StreamSupport.stream(users.spliterator(), false)
                         .map(this::toModel)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                linkTo(methodOn(AdministrationController.class).getAllUsers()).withSelfRel()
         );
     }
 }

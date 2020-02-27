@@ -22,7 +22,11 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
     List<Comment> findAllByPostAndDeletedFalse(Post post);
 
+    List<Comment> findAllByUserIdAndDeletedFalse(int userId);
+
     @Modifying
     @Query("update Comment c set c.deleted = true where c.id = :commentId")
     void deleteCommentById(int commentId);
+
+    List<Comment> findAllByPostIdAndDeletedFalse(int postId);
 }

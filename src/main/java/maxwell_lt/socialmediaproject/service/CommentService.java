@@ -55,4 +55,12 @@ public class CommentService {
     public void deleteComment(int commentId) {
         commentRepository.deleteCommentById(commentId);
     }
+
+    public List<Comment> getCommentsByUser(int userId) {
+        return commentRepository.findAllByUserIdAndDeletedFalse(userId);
+    }
+
+    public List<Comment> getCommentsByPost(int postId) {
+        return commentRepository.findAllByPostIdAndDeletedFalse(postId);
+    }
 }
