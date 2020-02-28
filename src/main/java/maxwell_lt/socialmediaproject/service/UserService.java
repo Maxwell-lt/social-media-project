@@ -41,17 +41,27 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUsername(int id, String username) {
+    public boolean updateUsername(int id, String username) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        user.setUsername(username);
-        userRepository.save(user);
+        if (userRepository.findByUsername(username).isPresent()) {
+            return false;
+        } else {
+            user.setUsername(username);
+            userRepository.save(user);
+            return true;
+        }
     }
 
     @Transactional
-    public void updateEmail(int id, String email) {
+    public boolean updateEmail(int id, String email) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        user.setEmail(email);
-        userRepository.save(user);
+        if (userRepository.findByEmail(email).isPresent()) {
+            return false;
+        } else {
+            user.setEmail(email);
+            userRepository.save(user);
+            return true;
+        }
     }
 
     @Transactional
@@ -73,5 +83,10 @@ public class UserService {
     @Transactional
     public void deleteUser(int userId) {
         userRepository.deleteUserById(userId);
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(newPassword);
+        userRepository.save(user);
     }
 }

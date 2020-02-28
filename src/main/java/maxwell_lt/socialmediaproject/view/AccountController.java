@@ -3,6 +3,7 @@ package maxwell_lt.socialmediaproject.view;
 import maxwell_lt.socialmediaproject.entity.Comment;
 import maxwell_lt.socialmediaproject.entity.Post;
 import maxwell_lt.socialmediaproject.entity.User;
+import maxwell_lt.socialmediaproject.exception.NotAuthenticatedException;
 import maxwell_lt.socialmediaproject.exception.UserNotFoundException;
 import maxwell_lt.socialmediaproject.service.CommentService;
 import maxwell_lt.socialmediaproject.service.PostService;
@@ -14,10 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
@@ -35,18 +39,21 @@ public class AccountController {
     private CommentService commentService;
     private PostlikesService postlikesService;
     private UserUtil userUtil;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public AccountController(UserService userService,
                              PostService postService,
                              CommentService commentService,
                              PostlikesService postlikesService,
-                             UserUtil userUtil) {
+                             UserUtil userUtil,
+                             PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.postService = postService;
         this.commentService = commentService;
         this.postlikesService = postlikesService;
         this.userUtil = userUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/account/{user}")
@@ -63,11 +70,9 @@ public class AccountController {
     @GetMapping("/account")
     public ModelAndView myAccountInfo() {
         Optional<User> currentUser = userUtil.getCurrentUser();
-        if (currentUser.isPresent()) {
-            return new ModelAndView("redirect:/account/" + currentUser.get().getId());
-        } else {
-            throw new UserNotFoundException();
-        }
+        return currentUser
+                .map(user -> new ModelAndView("redirect:/account/" + user.getId()))
+                .orElseGet(() -> new ModelAndView("redirect:/login"));
     }
 
     private ModelAndView getModelFromUserId(int userId, Optional<User> currentUser, int pageNumber, int pageSize, Sort order) {
@@ -107,5 +112,30 @@ public class AccountController {
                     .collect(Collectors.toList()));
         }
         return mav;
+    }
+
+    @PutMapping("/account/password")
+    public @ResponseBody
+    boolean updatePassword(@RequestParam("oldpass") String oldPassword, @RequestParam("newpass") String newPassword) {
+        User user = userUtil.getCurrentUser().orElseThrow(NotAuthenticatedException::new);
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            userService.updatePassword(user, passwordEncoder.encode(newPassword));
+            return true;
+        }
+        return false;
+    }
+
+    @PutMapping("/account/username")
+    public @ResponseBody
+    boolean updateUsername(@RequestParam("username") String username) {
+        int userId = userUtil.getCurrentUser().orElseThrow(NotAuthenticatedException::new).getId();
+        return userService.updateUsername(userId, username);
+    }
+
+    @PutMapping("/account/email")
+    public @ResponseBody
+    boolean updateEmail(@RequestParam("email") String email) {
+        int userId = userUtil.getCurrentUser().orElseThrow(NotAuthenticatedException::new).getId();
+        return userService.updateEmail(userId, email);
     }
 }
