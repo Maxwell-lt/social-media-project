@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -97,7 +98,9 @@ public class AccountController {
                         post -> postlikesService.getLikesByUser(post, value))))
                 .orElseGet(HashMap::new);
 
-        mav.addObject("user", user);
+        mav.addObject("mypage", currentUser.isPresent());
+
+        mav.addObject("pageuser", user);
         mav.addObject("posts", posts);
         mav.addObject("totallikes", totalLikes);
         mav.addObject("mylikes", myLikes);
@@ -116,26 +119,26 @@ public class AccountController {
 
     @PutMapping("/account/password")
     public @ResponseBody
-    boolean updatePassword(@RequestParam("oldpass") String oldPassword, @RequestParam("newpass") String newPassword) {
+    Map<String, Boolean> updatePassword(@RequestParam("oldpass") String oldPassword, @RequestParam("newpass") String newPassword) {
         User user = userUtil.getCurrentUser().orElseThrow(NotAuthenticatedException::new);
         if (passwordEncoder.matches(oldPassword, user.getPassword())) {
             userService.updatePassword(user, passwordEncoder.encode(newPassword));
-            return true;
+            return Collections.singletonMap("success", true);
         }
-        return false;
+        return Collections.singletonMap("success", false);
     }
 
     @PutMapping("/account/username")
     public @ResponseBody
-    boolean updateUsername(@RequestParam("username") String username) {
+    Map<String, Boolean> updateUsername(@RequestParam("username") String username) {
         int userId = userUtil.getCurrentUser().orElseThrow(NotAuthenticatedException::new).getId();
-        return userService.updateUsername(userId, username);
+        return Collections.singletonMap("success", userService.updateUsername(userId, username));
     }
 
     @PutMapping("/account/email")
     public @ResponseBody
-    boolean updateEmail(@RequestParam("email") String email) {
+    Map<String, Boolean> updateEmail(@RequestParam("email") String email) {
         int userId = userUtil.getCurrentUser().orElseThrow(NotAuthenticatedException::new).getId();
-        return userService.updateEmail(userId, email);
+        return Collections.singletonMap("success", userService.updateEmail(userId, email));
     }
 }
