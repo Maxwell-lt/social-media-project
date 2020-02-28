@@ -20,87 +20,98 @@
         <div class="col-md-6">
             <h1 class="text-light" th:text="${pageuser.username} + '\'s Account'"></h1>
         </div>
-        <div class="col-md-6" th:if="${mypage == true}">
-            <div id="alertContainer"></div>
-            <div class="form-group">
-                <label for="username">New Username</label><input id="username" type="text">
-                <button class="btn btn-primary" id="changeUsername" type="button">Update username</button>
-            </div>
-            <div class="form-group">
-                <label for="email">New email</label><input id="email" type="text">
-                <button class="btn btn-primary" id="changeEmail" type="button">Update Email</button>
-            </div>
-            <div class="form-group">
-                <label for="oldpassword">Current Password</label><input id="oldpassword" type="password">
-                <label for="newpassword">New Password</label><input id="newpassword" type="password">
-                <button class="btn btn-primary" id="changePassword" type="button">Update password</button>
-            </div>
-            <script type="text/javascript">
-                const token = document.getElementsByTagName('meta')["_csrf"].content;
+        <div class="col-md-6 bg-dark rounded text-light py-3" th:if="${mypage}">
+            <a class="btn btn-primary text-center" data-toggle="collapse" href="#accountManagementCollapse"
+               role="button">
+                Manage Account
+            </a>
+            <div class="collapse" id="accountManagementCollapse">
+                <div id="alertContainer"></div>
+                <div class="form-group">
+                    <label for="username">New Username</label><input class="form-control" id="username" type="text">
+                    <button class="btn btn-primary" id="changeUsername" type="button">Update username</button>
+                </div>
+                <div class="form-group">
+                    <label for="email">New email</label><input class="form-control" id="email" type="text">
+                    <button class="btn btn-primary" id="changeEmail" type="button">Update Email</button>
+                </div>
+                <div class="form-group">
+                    <label for="oldpassword">Current Password</label><input class="form-control" id="oldpassword"
+                                                                            type="password">
+                </div>
+                <div class="form-group">
+                    <label for="newpassword">New Password</label><input class="form-control" id="newpassword"
+                                                                        type="password">
+                    <button class="btn btn-primary" id="changePassword" type="button">Update password</button>
+                </div>
+                <script type="text/javascript">
+                    const token = document.getElementsByTagName('meta')["_csrf"].content;
 
-                function createAlert(success, text) {
-                    var alertClass = success ? "alert-success" : "alert-danger";
-                    document.getElementById("alertContainer").innerHTML = '<div class="alert ' + alertClass + '" role="alert">' + text + '</div>'
-                }
+                    function createAlert(success, text) {
+                        var alertClass = success ? "alert-success" : "alert-danger";
+                        document.getElementById("alertContainer").innerHTML = '<div class="alert ' + alertClass + '" role="alert">' + text + '</div>'
+                    }
 
-                document.getElementById("changeUsername").onclick = (evt) => {
-                    let xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && this.status === 200) {
-                            let response = JSON.parse(this.responseText);
-                            if (response.success) {
-                                createAlert(true, "Updated username!");
-                            } else {
-                                createAlert(false, "Username update failed.");
+                    document.getElementById("changeUsername").onclick = (evt) => {
+                        let xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState === 4 && this.status === 200) {
+                                let response = JSON.parse(this.responseText);
+                                if (response.success) {
+                                    createAlert(true, "Updated username!");
+                                } else {
+                                    createAlert(false, "Username update failed.");
+                                }
                             }
-                        }
 
-                        xhr.open("PUT", "/account/username", true);
+                        };
+                        xhr.open("PUT", "/manage_account/username", true);
                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
                         xhr.send("_csrf=" + token +
-                            "&username=" + document.getElementById("username").innerText);
+                            "&username=" + document.getElementById("username").value);
                     };
-                };
 
-                document.getElementById("changeEmail").onclick = (evt) => {
-                    let xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && this.status === 200) {
-                            let response = JSON.parse(this.responseText);
-                            if (response.success) {
-                                createAlert(true, "Updated email!");
-                            } else {
-                                createAlert(false, "Email update failed.");
+                    document.getElementById("changeEmail").onclick = (evt) => {
+                        let xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState === 4 && this.status === 200) {
+                                let response = JSON.parse(this.responseText);
+                                if (response.success) {
+                                    createAlert(true, "Updated email!");
+                                } else {
+                                    createAlert(false, "Email update failed.");
+                                }
                             }
-                        }
 
-                        xhr.open("PUT", "/account/email", true);
+                        };
+                        xhr.open("PUT", "/manage_account/email", true);
                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
                         xhr.send("_csrf=" + token +
-                            "&email=" + document.getElementById("email").innerText);
+                            "&email=" + document.getElementById("email").value);
                     };
-                };
 
-                document.getElementById("changePassword").onclick = (evt) => {
-                    let xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && this.status === 200) {
-                            let response = JSON.parse(this.responseText);
-                            if (response.success) {
-                                createAlert(true, "Updated password!");
-                            } else {
-                                createAlert(false, "Password update failed.");
+                    document.getElementById("changePassword").onclick = (evt) => {
+                        let xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState === 4 && this.status === 200) {
+                                let response = JSON.parse(this.responseText);
+                                console.log(response);
+                                if (response.success) {
+                                    createAlert(true, "Updated password!");
+                                } else {
+                                    createAlert(false, "Password update failed.");
+                                }
                             }
-                        }
 
-                        xhr.open("PUT", "/account/password", true);
+                        };
+                        xhr.open("PUT", "/manage_account/password", true);
                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
                         xhr.send("_csrf=" + token +
-                            "&oldpass=" + document.getElementById("oldpassword").innerText +
-                            "&newpass=" + document.getElementById("newpassword").innerText);
+                            "&oldpass=" + document.getElementById("oldpassword").value +
+                            "&newpass=" + document.getElementById("newpassword").value);
                     };
-                };
-            </script>
+                </script>
+            </div>
         </div>
     </div>
 
