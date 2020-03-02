@@ -37,7 +37,7 @@
     </div>
 </div>
 <script sec:authorize="isAuthenticated()" th:fragment="likescript">
-    const token = document.getElementsByTagName('meta')["_csrf"].content;
+    const csrf_token = document.getElementsByTagName('meta')["_csrf"].content;
     let posts = Array.from(document.getElementsByClassName("like-unit"));
 
     function getListener(likeUnit) {
@@ -61,7 +61,7 @@
             };
             xhr.open("POST", "/like", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-            xhr.send("_csrf=" + token +
+            xhr.send("_csrf=" + csrf_token +
                 '&postid=' + postId +
                 "&number=1");
         }
