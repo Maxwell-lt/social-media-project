@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -64,7 +63,7 @@ public class AccountController {
                                     @RequestParam(value = "sort", defaultValue = "popular") String sort) {
         Optional<User> currentUser = userUtil.getCurrentUser();
         Sort sortOrder = PostUtil.getSortFromParam(sort);
-        return getModelFromUserId(userId, currentUser, pageNumber, pageSize, sortOrder);
+        return getModelFromUserId(userId, currentUser, pageNumber, pageSize, sortOrder, show);
     }
 
     @GetMapping("/account")
@@ -81,19 +80,21 @@ public class AccountController {
         return result;
     }
 
-    private ModelAndView getModelFromUserId(int userId, Optional<User> currentUser, int pageNumber, int pageSize, Sort order) {
+    private ModelAndView getModelFromUserId(int userId, Optional<User> currentUser, int pageNumber, int pageSize, Sort order, String show) {
 
         Optional<User> userOptional = userService.getUserById(userId);
         if (!userOptional.isPresent()) {
             throw new UserNotFoundException();
         }
-        ModelAndView mav = new ModelAndView("account");
+        ModelAndView mav = new ModelAndView(show.equals("posts") ? "account" : "accountcomments");
         User user = userOptional.get();
 
         Page<Post> posts = order.isUnsorted()
                 ? postService.getPostsAsPageByUserByPopularity(user, PageRequest.of(pageNumber - 1, pageSize))
                 : postService.getPostsByUser(user, PageRequest.of(pageNumber - 1, pageSize, order));
-        Collection<Comment> comments = commentService.getCommentsByUser(user);
+        Page<Comment> comments = order.isUnsorted()
+                ? commentService.getCommentsAsPageByUser(user, PageRequest.of(pageNumber - 1, pageSize))
+                : commentService.getCommentsAsPageByUser(user, PageRequest.of(pageNumber - 1, pageSize, order));
 
         Map<Integer, Integer> totalLikes = posts.stream()
                 .collect(Collectors.toMap(Post::getId, postlikesService::getLikes));
@@ -104,11 +105,9 @@ public class AccountController {
                 .orElseGet(HashMap::new);
 
 
-        if (currentUser.isPresent()) {
-            mav.addObject("mypage", currentUser.get().getId() == userId);
-        } else {
-            mav.addObject("mypage", false);
-        }
+        mav.addObject(
+                "mypage",
+                currentUser.isPresent() && currentUser.get().getId() == userId);
 
         mav.addObject("pageuser", user);
         mav.addObject("posts", posts);
@@ -116,7 +115,9 @@ public class AccountController {
         mav.addObject("mylikes", myLikes);
         mav.addObject("comments", comments);
 
-        int totalPages = posts.getTotalPages();
+        int totalPages = show.equals("posts")
+                ? posts.getTotalPages()
+                : comments.getTotalPages();
         if (totalPages > 0) {
             mav.addObject("pagenumbers", IntStream.rangeClosed(
                     Integer.max(pageNumber - 3, 1),

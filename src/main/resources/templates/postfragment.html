@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-<div class="row border rounded bg-dark text-light my-3 post" th:each="post: ${posts.getContent()}"
+<div class="row border rounded bg-dark text-light my-1 mx-auto post" th:each="post: ${posts.getContent()}"
      th:fragment="posts(posts, totalLikes, myLikes)">
     <div class="col-3">
         <img class="img-fluid p-1 rounded" th:alt="${post.title}" th:if="${post.imageId != null}"
@@ -23,6 +23,7 @@
         <p class="markdown" th:text="${#strings.abbreviate(post.text, 140)}"></p>
     </div>
 </div>
+
 <div class="row border rounded bg-dark text-light my-1 mx-auto comment" th:each="comment: ${comments.getContent()}"
      th:fragment="comments(comments)">
     <div class="col-3">
@@ -31,9 +32,31 @@
     </div>
     <div class="col-9">
         <p class="markdown" th:text="${#strings.abbreviate(comment.text, 140)}"></p>
-        <small class="text-muted" th:text="${'Posted ' + prettyTime.format(comment.timestamp) + ' ago by'}"
+        <small class="text-muted" th:text="${'Commented ' + prettyTime.format(comment.timestamp) + ' ago by'}"
                th:with="prettyTime=${@prettyTime}"
                th:title="${#temporals.formatISO(comment.timestamp.toInstant())}"></small>
+        <a class="text-muted" th:href="@{/account/{postid}(postid = ${comment.user.id})}"
+           th:text="${comment.user.username}"></a>
+    </div>
+</div>
+
+<div class="row border rounded bg-dark text-light my-1 mx-auto comment" th:each="comment: ${comments.getContent()}"
+     th:fragment="accComments(comments)">
+    <div class="col-12">
+        <h5 class="d-inline">On post </h5><a th:href="@{/post/{id}(id=${comment.post.id})}"><h6 class="d-inline"
+                                                                                                th:text="${comment.post.title}"></h6>
+    </a>
+    </div>
+    <hr class="w-100" style="border-top: 1px solid white">
+    <div class="col-3">
+        <img class="img-fluid p-1 rounded" th:if="${comment.imageId != null}"
+             th:src="@{/image(id=${comment.imageId} + '_thumb')}"/>
+    </div>
+    <div class="col-9">
+        <p class="markdown" th:text="${#strings.abbreviate(comment.text, 140)}"></p>
+        <small class="text-muted" th:text="${'Commented ' + prettyTime.format(comment.timestamp) + ' ago by'}"
+               th:title="${#temporals.formatISO(comment.timestamp.toInstant())}"
+               th:with="prettyTime=${@prettyTime}"></small>
         <a class="text-muted" th:href="@{/account/{postid}(postid = ${comment.user.id})}"
            th:text="${comment.user.username}"></a>
     </div>
