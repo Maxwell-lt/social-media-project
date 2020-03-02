@@ -76,13 +76,8 @@ public class AccountController {
     }
 
     private static Map<String, Object> getStatusMap(boolean status) {
-        return getStatusMap(status, "");
-    }
-
-    private static Map<String, Object> getStatusMap(boolean status, Object message) {
         Map<String, Object> result = new HashMap<>();
         result.put("success", status);
-        result.put("message", message);
         return result;
     }
 
