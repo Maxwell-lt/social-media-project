@@ -93,7 +93,7 @@ public class AccountController {
                 ? postService.getPostsAsPageByUserByPopularity(user, PageRequest.of(pageNumber - 1, pageSize))
                 : postService.getPostsByUser(user, PageRequest.of(pageNumber - 1, pageSize, order));
         Page<Comment> comments = order.isUnsorted()
-                ? commentService.getCommentsAsPageByUser(user, PageRequest.of(pageNumber - 1, pageSize))
+                ? commentService.getCommentsAsPageByUser(user, PageRequest.of(pageNumber - 1, pageSize, Sort.by("timestamp").descending()))
                 : commentService.getCommentsAsPageByUser(user, PageRequest.of(pageNumber - 1, pageSize, order));
 
         Map<Integer, Integer> totalLikes = posts.stream()

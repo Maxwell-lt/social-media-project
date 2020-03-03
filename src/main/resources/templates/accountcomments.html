@@ -23,7 +23,7 @@
         <div th:replace="${mypage} ? ~{manageaccount :: manage} : ~{}"></div>
     </div>
 
-    <ul th:replace="navfragment :: displayOptions(false)"></ul>
+    <ul th:replace="navfragment :: displayOptions(true)"></ul>
     <div th:replace="postfragment :: accComments(${comments})"></div>
     <div th:replace="navfragment :: pageNavigation(${comments}, ${pagenumbers})"></div>
 </div>

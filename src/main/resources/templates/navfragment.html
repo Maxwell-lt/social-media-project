@@ -36,26 +36,29 @@
     </nav>
 </div>
 <ul class="nav nav-tabs" th:fragment="displayOptions(includeType)">
-    <li class="nav-item">
+    <li class="nav-item" th:if="${includeType}">
         <a class="nav-link"
            th:classappend="${param.show == null} ? active : (${param.show != null && param.show[0].equalsIgnoreCase('posts')} ? active)"
-           th:href="@{${urlBuilder.replaceQueryParam('show', 'posts').build().toUriString()}}"
+           th:href="@{${urlBuilder.replaceQueryParam('show', 'posts').replaceQueryParam('sort').build().toUriString()}}"
            th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">Posts</a>
     </li>
-    <li class="nav-item mr-auto">
+    <li class="nav-item mr-auto" th:if="${includeType}">
         <a class="nav-link"
            th:classappend="${param.show != null && param.show[0].equalsIgnoreCase('comments')} ? active"
-           th:href="@{${urlBuilder.replaceQueryParam('show', 'comments').build().toUriString()}}"
+           th:href="@{${urlBuilder.replaceQueryParam('show', 'comments').replaceQueryParam('sort').build().toUriString()}}"
            th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">Comments</a>
     </li>
     <li class="nav-item ml-auto">
-        <a class="nav-link"
-           th:classappend="${param.sort == null} ? active : (${param.sort != null && param.sort[0].equalsIgnoreCase('popular')} ? active)"
+        <a class="nav-link" th:classappend="${#bools.isTrue(param.sort == null && param.show == null)
+           || #bools.isTrue(param.sort != null && param.sort[0].equalsIgnoreCase('popular'))
+           || #bools.isTrue(param.show != null && param.show[0].equalsIgnoreCase('posts'))} ? active"
+           th:unless="${param.show != null && param.show[0].equalsIgnoreCase('comments')}"
            th:href="@{${urlBuilder.replaceQueryParam('sort', 'popular').build().toUriString()}}"
            th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">Popular</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" th:classappend="${param.sort != null && param.sort[0].equalsIgnoreCase('new')} ? active"
+        <a class="nav-link"
+           th:classappend="${#bools.isTrue(param.sort != null && param.sort[0].equalsIgnoreCase('new')) || #bools.isTrue(param.sort == null && param.show != null && param.show[0].equalsIgnoreCase('comments'))} ? active"
            th:href="@{${urlBuilder.replaceQueryParam('sort', 'new').build().toUriString()}}"
            th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">New</a>
     </li>
