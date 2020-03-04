@@ -51,7 +51,7 @@
     <li class="nav-item ml-auto">
         <a class="nav-link" th:classappend="${#bools.isTrue(param.sort == null && param.show == null)
            || #bools.isTrue(param.sort != null && param.sort[0].equalsIgnoreCase('popular'))
-           || #bools.isTrue(param.show != null && param.show[0].equalsIgnoreCase('posts'))} ? active"
+           || #bools.isTrue(param.show != null && param.show[0].equalsIgnoreCase('posts') && param.sort == null)} ? active"
            th:unless="${param.show != null && param.show[0].equalsIgnoreCase('comments')}"
            th:href="@{${urlBuilder.replaceQueryParam('sort', 'popular').build().toUriString()}}"
            th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">Popular</a>
